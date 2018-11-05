@@ -12,10 +12,10 @@ output:
   BiocStyle::html_document:
     toc_float: true
 vignette: >
-    %\VignetteIndexEntry{Accessing the Human Cell Atlas datasets}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
-    %\VignettePackage{HCAData}
+  %\VignetteIndexEntry{Accessing the Human Cell Atlas datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignettePackage{HCAData}
 ---
 
 **Compiled date**: `r Sys.Date()`
@@ -43,7 +43,7 @@ Snapshot of date: ...
 Pkg content available...
 
 ```{r}
-
+message("Doing good!")
 ```
 
 Accessing individual datasets

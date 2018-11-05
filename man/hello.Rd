@@ -10,8 +10,9 @@ hello()
 Ciao!
 }
 \description{
-hello
+Greets someone
 }
 \examples{
+library(HCAData)
 hello()
 }
