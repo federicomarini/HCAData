@@ -17,6 +17,7 @@ Depends: R (>= 3.5)
 Imports: ExperimentHub,
     AnnotationHub,
     SingleCellExperiment,
+    HDF5Array,
     utils
 Suggests: knitr,
     rmarkdown,
