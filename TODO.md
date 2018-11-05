@@ -7,3 +7,4 @@
 - submission to ExperimentHub
 - functions to access quickly
 - wrap up and submit to Bioc
+- zzz.R to display some info on loading
