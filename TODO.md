@@ -1,0 +1,9 @@
+- license to be chosen
+- data must be there in correct form
+- metadata to be found and added properly
+- sce object created
+- some processing of sce?
+- HDF5Array-based backend
+- submission to ExperimentHub
+- functions to access quickly
+- wrap up and submit to Bioc
