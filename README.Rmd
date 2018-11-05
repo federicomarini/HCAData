@@ -1,0 +1,41 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+# HCAData
+
+This is an R/[ExperimentHub](https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html) package for accessing data from the [Human Cell Atlas](https://www.humancellatlas.org) as [`SingleCellExperiment`](https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html) objects.
+
+The datasets can otherwise be downloaded from the [Human Cell Atlas Data Portal](https://preview.data.humancellatlas.org), where they are available to the research community, either in raw format (with scripts to download the primary data), or in hdf5-based format (for the sets generated via the 10x method).
+
+If you use the data, please refer to the original source as well (plus the related publications, which will be listed here when they will be out). 
+
+## Some additional information
+
+- The cellranger-processed data files and metadata were downloaded from the links provided in [the Data Portal](https://preview.data.humancellatlas.org) on November 5, 2018
+
+- This current release includes the following datasets:
+
+```{r, eval = TRUE, echo = FALSE}
+knitr::kable(
+  data.frame(
+    `dataset ID` = c("Census of Immune Cells","Census of Immune Cells"),
+    `subset` = c("Umbilical cord blood","Bone marrow"), 
+    `species` = c("Homo sapiens","Homo sapiens"), 
+    `technology` = c("10x", "10x"),
+    `cell number` = c(384000, 378000),
+    `description` = c("Profiling of immunocytes by single cell RNA-seq for understanding human health and disease.", "Profiling of immunocytes by single cell RNA-seq for understanding human health and disease.")
+    )
+  )
+# maybe put a screenshot of iSEE viewing tSNE of each set?
+```
+
+- Since the hdf5 files are derived from the cellranger pipeline, some information on their specific format can be found [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/h5_matrices)
+
+## Some new dataset has been released but it is not in this package!
+
+In this case, feel free to contact the author(s) of this package, and/or to provide a complete pull request with the recipe to add the missing dataset.
+
+
