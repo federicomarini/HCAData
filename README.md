@@ -5,7 +5,7 @@ This is an R/[ExperimentHub](https://bioconductor.org/packages/release/bioc/html
 
 The datasets can otherwise be downloaded from the [Human Cell Atlas Data Portal](https://preview.data.humancellatlas.org), where they are available to the research community, either in raw format (with scripts to download the primary data), or in hdf5-based format (for the sets generated via the 10x method).
 
-If you use the data, please refer to the original source as well (plus the related publications, which will be listed here when they will be out).
+If you use the data, please refer to the original sources as well (plus the related publications, which will be listed here when they will be out), which are licensed under a Creative Commons Attribution 4.0 International License.
 
 Some additional information
 ---------------------------
