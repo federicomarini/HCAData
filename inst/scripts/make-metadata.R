@@ -1,48 +1,48 @@
 ## validate with `ExperimentHubData::makeExperimentHubMetadata()`
 ## (above pkg directory)
 
-df_hca_cordblood <- data.frame(
-  Title = "HCA_cordblood",
-  Description = "10x data from the HCA project, Census of Immune Cells - Umbilical cord blood",
-  BiocVersion = "3.9",
-  Genome = "GRCh38",
-  SourceType = "HDF5",
-  SourceUrl = "https://s3.amazonaws.com/preview-ica-expression-data/ica_cord_blood_h5.h5",
-  SourceVersion = "b5dd8ec9c9ff2d142986aaee014b9098",
-  Species = "Homo sapiens",
-  TaxonomyId = 9606,
-  Coordinate_1_based = TRUE,
-  DataProvider = "Human Cell Atlas",
-  Maintainer = "Federico Marini <marinif@uni-mainz.de>",
-  RDataClass = "SingleCellExperiment",
-  DispatchClass = "Rds",
-  RDataPath = "HCAData/sce_HCA_cordblood.rds",
+df_HCA_cordblood <- data.frame(
+  Title = rep("HCA_cordblood", 3),
+  Description = rep("10x data from the HCA project, Census of Immune Cells - Umbilical cord blood", 3),
+  BiocVersion = rep("3.9", 3),
+  Genome = rep("GRCh38", 3),
+  SourceType = rep("HDF5", 3),
+  SourceUrl = rep("https://s3.amazonaws.com/preview-ica-expression-data/ica_cord_blood_h5.h5", 3),
+  SourceVersion = rep("b5dd8ec9c9ff2d142986aaee014b9098", 3),
+  Species = rep("Homo sapiens", 3),
+  TaxonomyId = rep(9606, 3),
+  Coordinate_1_based = rep(TRUE, 3),
+  DataProvider = rep("Human Cell Atlas", 3),
+  Maintainer = rep("Federico Marini <marinif@uni-mainz.de>", 3),
+  RDataClass = rep("character", 3),
+  DispatchClass = c("H5File","Rds","Rds"),
+  RDataPath = paste0("HCAData/ica_cord_blood",c("_rectangular.h5", "_colData.rds", "_rowData.rds")),
   stringsAsFactors = FALSE
 )
 
-df_hca_bonemarrow <- data.frame(
-  Title = "HCA_bonemarrow",
-  Description = "10x data from the HCA project, Census of Immune Cells - Bone marrow",
-  BiocVersion = "3.9",
-  Genome = "GRCh38",
-  SourceType = "HDF5",
-  SourceUrl = "https://s3.amazonaws.com/preview-ica-expression-data/ica_bone_marrow_h5.h5",
-  SourceVersion = "9d10973b7c178ee6886ae12d004d4d23",
-  Species = "Homo sapiens",
-  TaxonomyId = 9606,
-  Coordinate_1_based = TRUE,
-  DataProvider = "Human Cell Atlas",
-  Maintainer = "Federico Marini <marinif@uni-mainz.de>",
-  RDataClass = "SingleCellExperiment",
-  DispatchClass = "Rds",
-  RDataPath = "HCAData/sce_HCA_bonemarrow.rds",
+df_HCA_bonemarrow <- data.frame(
+  Title = rep("HCA_bonemarrow", 3),
+  Description = rep("10x data from the HCA project, Census of Immune Cells - Bone marrow", 3),
+  BiocVersion = rep("3.9", 3),
+  Genome = rep("GRCh38", 3),
+  SourceType = rep("HDF5", 3),
+  SourceUrl = rep("https://s3.amazonaws.com/preview-ica-expression-data/ica_bone_marrow_h5.h5", 3),
+  SourceVersion = rep("9d10973b7c178ee6886ae12d004d4d23", 3),
+  Species = rep("Homo sapiens", 3),
+  TaxonomyId = rep(9606, 3),
+  Coordinate_1_based = rep(TRUE, 3),
+  DataProvider = rep("Human Cell Atlas", 3),
+  Maintainer = rep("Federico Marini <marinif@uni-mainz.de>", 3),
+  RDataClass = rep("character", 3),
+  DispatchClass = c("H5File","Rds","Rds"),
+  RDataPath = paste0("HCAData/ica_bone_marrow",c("_rectangular.h5", "_colData.rds", "_rowData.rds")),
   stringsAsFactors = FALSE
 )
 
 # when there's going to be many more, it might be practical to have it automated
 
 ## Combined meta-data
-df_all <- do.call(rbind,lapply(ls(pattern = "^df_hca"),get))
+df_all <- do.call(rbind,lapply(ls(pattern = "^df_HCA"),get))
 
 ## Save .csv file
 write.csv(df_all, file = "../extdata/metadata.csv", row.names = FALSE)
