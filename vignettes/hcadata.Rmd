@@ -101,7 +101,7 @@ sce <- sce[,which(e.out$FDR <= 0.01)]
 
 ## QC
 library(BiocParallel)
-sce <- calculateQCMetrics(sce, feature_controls=list(Mito=which(location=="MT")),BPPARAM = bpparam())
+sce <- calculateQCMetrics(sce, feature_controls=list(Mito=which(location=="MT")),BPPARAM = MulticoreParam(4))
 par(mfrow=c(1,3))
 hist(sce$log10_total_counts, breaks=20, col="grey80",
     xlab="Log-total UMI count")
@@ -115,7 +115,21 @@ summary(high.mito)
 sce <- sce[,!high.mito]
 
 
-ave <- calcAverage(sce)
+# the quick subset to see something colourful
+set.seed(42)
+se <- sce[, sample(seq_len(ncol(sce)), 2500, replace = FALSE)]
+se
+se <- scran::computeSumFactors(se)
+se <- scater::normalize(se)
+se <- scater::runPCA(se)
+se <- scater::runTSNE(se)
+
+
+
+
+# the full way
+
+ave <- calcAverage(sce,use_size_factors = FALSE, BPPARAM = MulticoreParam(4))
 rowData(sce)$AveCount <- ave
 hist(log10(ave), col="grey80")
 
