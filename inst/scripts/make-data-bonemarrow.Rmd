@@ -27,8 +27,8 @@ getRowData <- function(path, genome = NULL) {
   if (is.null(genome)) 
     genome <- getGenomes(path)[1]
   data.frame(
-    id = as.character(h5read(path, paste0(genome,"/genes"))),
-    symbol=as.character(h5read(path, paste0(genome,"/gene_names"))),
+    ID = as.character(h5read(path, paste0(genome,"/genes"))),
+    Symbol=as.character(h5read(path, paste0(genome,"/gene_names"))),
     stringsAsFactors=FALSE
   )
 }
@@ -53,7 +53,8 @@ getColData <- function(path, genome = NULL) {
 ```{r}
 url <- "https://s3.amazonaws.com/preview-ica-expression-data/ica_bone_marrow_h5.h5"
 path <- basename(url)
-download.file(url, path)
+if(!file.exists(path))
+  download.file(url, path)
 ```
 
 # Loading the data and preprocessing
@@ -61,17 +62,17 @@ download.file(url, path)
 Saving `rowData` and `colData`, used when constructing the `SingleCellExperiment` object
 
 ```{r}
-saveRDS(getRowData(path), "ica_bone_marrow_h5_rowData.rds")
-saveRDS(getColData(path), "ica_bone_marrow_h5_colData.rds")
+saveRDS(getRowData(path), "ica_bone_marrow_rowData.rds")
+saveRDS(getColData(path), "ica_bone_marrow_colData.rds")
 ```
 
 Converting into a `HDF5Matrix` object
 
 ```{r}
 mygenome <- getGenomes("ica_bone_marrow_h5.h5")
-tenxmat <- TENxMatrix(path,group = mygenome)
+tenxmat <- TENxMatrix(path, group = mygenome)
 dim(tenxmat)
-pryr::object_size(tenxmat)
+pryr::object_size(tenxmat
 ```
 
 Writing out the object as a rectangular h5 file
@@ -80,7 +81,7 @@ Writing out the object as a rectangular h5 file
 options(DelayedArray.block.size=1e9) # 1GB block size.
 mat.out <- writeHDF5Array(
   tenxmat,
-  file="ica_bone_marrow_h5_rectangular.h5",
+  file="ica_bone_marrow_rectangular.h5",
   name="counts",
   chunkdim=beachmat::getBestChunkDims(dim(tenxmat))
 )
@@ -91,11 +92,13 @@ mat.out <- writeHDF5Array(
 ```{r}
 sce_bonemarrow <- 
   SingleCellExperiment(
-    list(counts = HDF5Array("ica_bone_marrow_h5_rectangular.h5", "counts"))), 
+    list(counts = HDF5Array("ica_bone_marrow_rectangular.h5", "counts")), 
     rowData = getRowData(path), 
     colData = getColData(path)
   )
 
+rownames(sce_bonemarrow) <- rowData(sce_bonemarrow)$ID
+colnames(sce_bonemarrow) <- colData(sce_bonemarrow)$Barcode
 sce_bonemarrow
 
 saveRDS(sce_bonemarrow, file = "sce_HCA_bonemarrow.rds")
