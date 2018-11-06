@@ -35,11 +35,10 @@
 #' sce_cordblood <- HCAData("ica_cord_blood")
 #' }
 HCAData <- function(dataset =
-                      c("ica_bone_marrow", "ica_cord_blood" )) {
+                      c("ica_bone_marrow", "ica_cord_blood")) {
   dataset <- match.arg(dataset)
-  hub <- ExperimentHub()
-  version <- "v1.0.0"
-  base <- paste0("TENxPBMCData/", version, "/")
+  hub <- ExperimentHub::ExperimentHub()
+  base <- "HCAData/"
 
   ## row and column data
   rdatapath <- paste0(base, dataset, "_rowData.rds")
@@ -55,16 +54,12 @@ HCAData <- function(dataset =
   })
   h5array <- HDF5Array(h5file, "counts")
 
-  SingleCellExperiment(
-    list(counts = h5array), rowData = rowData, colData = colData
+  sce <- SingleCellExperiment(
+    list(counts = h5array),
+    rowData = rowData,
+    colData = colData
   )
-}
-
-
-
-
-.onLoad <- function(libname, pkgname) {
-  fl <- system.file("extdata", "metadata.csv", package="HCAData")
-  titles <- read.csv(fl, stringsAsFactors=FALSE)$Title
-  # createHubAccessors(pkgname, titles)
+  rownames(sce) <- rowData(sce)$ID
+  colnames(sce) <- colData(sce)$Barcode
+  return(sce)
 }
