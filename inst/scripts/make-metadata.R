@@ -6,17 +6,17 @@ df_hca_cordblood <- data.frame(
   Description = "10x data from the HCA project, Census of Immune Cells - Umbilical cord blood",
   BiocVersion = "3.9",
   Genome = "GRCh38",
-  SourceType = "hdf5",
+  SourceType = "HDF5",
   SourceUrl = "https://s3.amazonaws.com/preview-ica-expression-data/ica_cord_blood_h5.h5",
-  SourceVersion = NA,
+  SourceVersion = "b5dd8ec9c9ff2d142986aaee014b9098",
   Species = "Homo sapiens",
   TaxonomyId = 9606,
-  Coordinate_1_based = NA,
+  Coordinate_1_based = TRUE,
   DataProvider = "Human Cell Atlas",
   Maintainer = "Federico Marini <marinif@uni-mainz.de>",
   RDataClass = "SingleCellExperiment",
   DispatchClass = "Rds",
-  RDataPath = "HCAData/.rds",
+  RDataPath = "HCAData/sce_HCA_cordblood.rds",
   stringsAsFactors = FALSE
 )
 
@@ -25,17 +25,17 @@ df_hca_bonemarrow <- data.frame(
   Description = "10x data from the HCA project, Census of Immune Cells - Bone marrow",
   BiocVersion = "3.9",
   Genome = "GRCh38",
-  SourceType = "hdf5",
+  SourceType = "HDF5",
   SourceUrl = "https://s3.amazonaws.com/preview-ica-expression-data/ica_bone_marrow_h5.h5",
-  SourceVersion = NA,
+  SourceVersion = "9d10973b7c178ee6886ae12d004d4d23",
   Species = "Homo sapiens",
   TaxonomyId = 9606,
-  Coordinate_1_based = NA,
+  Coordinate_1_based = TRUE,
   DataProvider = "Human Cell Atlas",
   Maintainer = "Federico Marini <marinif@uni-mainz.de>",
   RDataClass = "SingleCellExperiment",
   DispatchClass = "Rds",
-  RDataPath = "HCAData/.rds",
+  RDataPath = "HCAData/sce_HCA_bonemarrow.rds",
   stringsAsFactors = FALSE
 )
 
