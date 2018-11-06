@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 
 The `r Biocpkg("HCAData")` package can be installed in the conventional way via `r CRANpkg("BiocManager")`.
 
-```{r}
+```{r, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("HCAData")
@@ -70,7 +70,7 @@ message("Doing good!")
 
 ## Processing in detail the cord blood dataset
 
-```{r}
+```{r, eval=FALSE}
 sce <- sce_cordblood
 library(scater)
 rownames(sce) <- uniquifyFeatureNames(rowData(sce)$id, rowData(sce)$symbol)
