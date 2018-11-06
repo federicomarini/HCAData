@@ -1,0 +1,109 @@
+---
+title: "Download and preprocess the Human Cell Atlas cord blood data (Census of Immune Cells)"
+author: "Federico Marini"
+date: ""
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(width = 100)
+```
+
+# Helper functions
+
+Following the definitions provided [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/h5_matrices)...
+
+```{r}
+library(HDF5Array)
+library(SingleCellExperiment)
+
+getGenomes <- function(path) {
+  genomes <- attributes(h5dump(path, load = FALSE))$names
+  genomes
+}
+
+getRowData <- function(path, genome = NULL) {
+  if (is.null(genome)) 
+    genome <- getGenomes(path)[1]
+  data.frame(
+    id = as.character(h5read(path, paste0(genome,"/genes"))),
+    symbol=as.character(h5read(path, paste0(genome,"/gene_names"))),
+    stringsAsFactors=FALSE
+  )
+}
+
+getColData <- function(path, genome = NULL) {
+  if (is.null(genome)) 
+    genome <- getGenomes(path)[1]
+  
+  barcode <- as.character(h5read(path, paste0(genome,"/barcodes")))
+  
+  data.frame(
+    Barcode=barcode,
+    stringsAsFactors=FALSE
+  )
+}
+```
+
+# Downloading the h5 file
+
+(accessed November 6, 2018)
+
+```{r}
+url <- "https://s3.amazonaws.com/preview-ica-expression-data/ica_cord_blood_h5.h5"
+path <- basename(url)
+download.file(url, path)
+```
+
+# Loading the data and preprocessing
+
+Saving `rowData` and `colData`, used when constructing the `SingleCellExperiment` object
+
+```{r}
+saveRDS(getRowData(path), "ica_cord_blood_h5_rowData.rds")
+saveRDS(getColData(path), "ica_cord_blood_h5_colData.rds")
+```
+
+Converting into a `HDF5Matrix` object
+
+```{r}
+mygenome <- getGenomes("ica_cord_blood_h5.h5")
+tenxmat <- TENxMatrix(path,group = mygenome)
+dim(tenxmat)
+pryr::object_size(tenxmat)
+```
+
+Writing out the object as a rectangular h5 file
+
+```{r}
+options(DelayedArray.block.size=1e9) # 1GB block size.
+mat.out <- writeHDF5Array(
+  tenxmat,
+  file="ica_cord_blood_h5_rectangular.h5",
+  name="counts",
+  chunkdim=beachmat::getBestChunkDims(dim(tenxmat))
+)
+```
+
+# Generating and saving the `SingleCellExperiment` object
+
+```{r}
+sce_cordblood <- 
+  SingleCellExperiment(
+    list(counts = tenxmat), 
+    rowData = getRowData(path), 
+    colData = getColData(path)
+  )
+
+sce_cordblood
+
+saveRDS(sce_cordblood, file = "sce_HCA_cordblood.rds")
+```
+
+# Session info
+
+```{r}
+sessionInfo()
+```
+
