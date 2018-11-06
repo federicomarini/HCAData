@@ -44,13 +44,19 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("HCAData")
 ```
 
+This package makes extensive use of the `r Biocpkg("HDF5Array")` package to avoid loading the entire data set in memory, instead storing the counts on disk as a HDF5 file and loading subsets of the data into memory upon request.
 
-# Load `HCAData`
+# Loading `HCAData`
 
 ```{r}
 library("HCAData")
 ```
 
+We use the `HCAData` function to download the relevant files from Bioconductor's ExperimentHub web resource. 
+
+This includes the HDF5 file containing the counts, as well as the metadata on the rows (genes) and columns (cells). 
+
+The output is a single `SingleCellExperiment` object from the `r Biocpkg("SingleCellExperiment")` package. 
 
 The `HCAData` data package provides access to 
 
@@ -62,10 +68,130 @@ Pkg content available...
 message("Doing good!")
 ```
 
-Accessing individual datasets
+## Processing in detail the cord blood dataset
 
 ```{r}
+sce <- sce_cordblood
+library(scater)
+rownames(sce) <- uniquifyFeatureNames(rowData(sce)$id, rowData(sce)$symbol)
+head(rownames(sce))
 
+library(EnsDb.Hsapiens.v86)
+location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce)$id, 
+    column="SEQNAME", keytype="GENEID")
+rowData(sce)$CHR <- location
+summary(location=="MT")
+
+library("DropletUtils")
+bcrank <- barcodeRanks(counts(sce))
+
+# Only showing unique points for plotting speed.
+uniq <- !duplicated(bcrank$rank)
+plot(bcrank$rank[uniq], bcrank$total[uniq], log="xy",
+    xlab="Rank", ylab="Total UMI count", cex.lab=1.2)
+
+abline(h=bcrank$inflection, col="darkgreen", lty=2)
+abline(h=bcrank$knee, col="dodgerblue", lty=2)
+
+legend("bottomleft", legend=c("Inflection", "Knee"), 
+	col=c("darkgreen", "dodgerblue"), lty=2, cex=1.2)
+
+## --------------------------------------------------------------------------
+set.seed(42)
+e.out <- emptyDrops(counts(sce))
+sum(e.out$FDR <= 0.01, na.rm=TRUE)
+table(Sig=e.out$FDR <= 0.01, Limited=e.out$Limited)
+sce <- sce[,which(e.out$FDR <= 0.01)]
+
+sce <- calculateQCMetrics(sce, feature_controls=list(Mito=which(location=="MT")))
+par(mfrow=c(1,3))
+hist(sce$log10_total_counts, breaks=20, col="grey80",
+    xlab="Log-total UMI count")
+hist(sce$log10_total_features_by_counts, breaks=20, col="grey80",
+    xlab="Log-total number of expressed features")
+hist(sce$pct_counts_Mito, breaks=20, col="grey80",
+	xlab="Proportion of reads in mitochondrial genes")
+
+high.mito <- isOutlier(sce$pct_counts_Mito, nmads=3, type="higher")
+sce <- sce[,!high.mito]
+summary(high.mito)
+
+
+ave <- calcAverage(sce)
+rowData(sce)$AveCount <- ave
+hist(log10(ave), col="grey80")
+
+plotHighestExprs(sce)
+
+
+
+library(scran)
+set.seed(42)
+clusters <- quickCluster(sce, method="igraph", min.mean=0.1,
+    irlba.args=list(maxit=1000)) # for convergence.
+table(clusters)
+sce <- computeSumFactors(sce, min.mean=0.1, cluster=clusters)
+summary(sizeFactors(sce))
+plot(sce$total_counts, sizeFactors(sce), log="xy")
+sce <- normalize(sce)
+
+new.trend <- makeTechTrend(x=sce)
+fit <- trendVar(sce, use.spikes=FALSE, loess.args=list(span=0.05))
+plot(fit$mean, fit$var, pch=16)
+curve(fit$trend(x), col="dodgerblue", add=TRUE)
+curve(new.trend(x), col="red", add=TRUE)
+
+fit0 <- fit
+fit$trend <- new.trend
+dec <- decomposeVar(fit=fit)
+top.dec <- dec[order(dec$bio, decreasing=TRUE),] 
+head(top.dec)
+plotExpression(sce, features=rownames(top.dec)[1:10])
+
+
+
+set.seed(42)
+sce <- denoisePCA(sce, technical=new.trend, approximate=TRUE)
+ncol(reducedDim(sce, "PCA"))
+
+plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
+	ylab="Proportion of variance explained")
+abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
+
+plotPCA(sce, ncomponents=3, colour_by="log10_total_features_by_counts")
+
+set.seed(42)
+sce <- runTSNE(sce, use_dimred="PCA", perplexity=30)
+plotTSNE(sce, colour_by="log10_total_features_by_counts")
+
+## --------------------------------------------------------------------------
+snn.gr <- buildSNNGraph(sce, use.dimred="PCA")
+clusters <- igraph::cluster_walktrap(snn.gr)
+sce$Cluster <- factor(clusters$membership)
+table(sce$Cluster)
+
+cluster.mod <- clusterModularity(snn.gr, sce$Cluster, get.values=TRUE)
+log.ratio <- log2(cluster.mod$observed/cluster.mod$expected + 1)
+
+library(pheatmap)
+pheatmap(log.ratio, cluster_rows=FALSE, cluster_cols=FALSE, 
+    color=colorRampPalette(c("white", "blue"))(100))
+
+plotTSNE(sce, colour_by="Cluster")
+markers <- findMarkers(sce, clusters=sce$Cluster, direction="up")
+
+marker.set <- markers[["8"]]
+head(marker.set[,1:8], 10) # only first 8 columns, for brevity
+
+pf4 <- sapply(marker.set["PF4",-(1:3)], sign)
+chosen <- rownames(marker.set)[marker.set$Top <= 10]
+plotHeatmap(sce, features=chosen, exprs_values="logcounts", 
+    zlim=5, center=TRUE, symmetric=TRUE, cluster_cols=FALSE,
+    colour_columns_by="Cluster", columns=order(sce$Cluster),
+    show_colnames=FALSE)
+
+
+saveRDS(sce, file="pbmc_data.rds")
 ```
 
 Performing some analysis?
