@@ -2,7 +2,7 @@
 ## (above pkg directory)
 
 df_hca_cordblood <- data.frame(
-  Title = "HCAcordblood",
+  Title = "HCA_cordblood",
   Description = "10x data from the HCA project, Census of Immune Cells - Umbilical cord blood",
   BiocVersion = "3.9",
   Genome = "GRCh38",
