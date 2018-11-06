@@ -91,7 +91,7 @@ mat.out <- writeHDF5Array(
 ```{r}
 sce_cordblood <- 
   SingleCellExperiment(
-    list(counts = tenxmat), 
+    list(counts = HDF5Array("ica_cord_blood_h5_rectangular.h5", "counts")), 
     rowData = getRowData(path), 
     colData = getColData(path)
   )

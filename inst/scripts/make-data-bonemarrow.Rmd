@@ -91,7 +91,7 @@ mat.out <- writeHDF5Array(
 ```{r}
 sce_bonemarrow <- 
   SingleCellExperiment(
-    list(counts = tenxmat), 
+    list(counts = HDF5Array("ica_bone_marrow_h5_rectangular.h5", "counts"))), 
     rowData = getRowData(path), 
     colData = getColData(path)
   )
