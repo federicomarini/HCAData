@@ -26,15 +26,31 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>",
-    error = FALSE,
-    warning = FALSE,
-    message = FALSE
+  collapse = TRUE,
+  comment = "#>",
+  error = FALSE,
+  warning = FALSE,
+  message = FALSE
 )
 ```
 
+# Installing `HCAData`
+
+The `r Biocpkg("HCAData")` package can be installed in the conventional way via `r CRANpkg("BiocManager")`.
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install("HCAData")
+```
+
+
 # Load `HCAData`
+
+```{r}
+library("HCAData")
+```
+
 
 The `HCAData` data package provides access to 
 
