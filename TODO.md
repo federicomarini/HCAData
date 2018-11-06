@@ -1,5 +1,5 @@
-- license to be chosen
-- data must be there in correct form
+- ~~license to be chosen~~ MIT
+- ~~data must be there in correct form~~ Checked with manually computed averages and via other functions
 - metadata to be found and added properly
 - sce object created
 - some processing of sce?
