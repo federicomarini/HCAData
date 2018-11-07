@@ -2,8 +2,12 @@
 ## (above pkg directory)
 
 df_HCA_cordblood <- data.frame(
-  Title = rep("Human Cell Atlas - Census of Immune Cells, Umbilical cord blood", 3),
-  Description = rep("Census of Immune Cells, Umbilical cord blood - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org", 3),
+  Title = paste0("Human Cell Atlas - Census of Immune Cells, Umbilical cord blood, ",
+                 c("'dense matrix' format","sample (column) annotation","gene (row) annotation")),
+  Description = paste0("Census of Immune Cells, Umbilical cord blood - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org - ",
+                       c("Full rectangular, block-compressed format, 1GB block size.",
+                         "Sample descriptions (barcodes).",
+                         "Gene descriptions.")),
   BiocVersion = rep("3.9", 3),
   Genome = rep("GRCh38", 3),
   SourceType = rep("HDF5", 3),
@@ -21,8 +25,12 @@ df_HCA_cordblood <- data.frame(
 )
 
 df_HCA_bonemarrow <- data.frame(
-  Title = rep("Human Cell Atlas - Census of Immune Cells, Bone marrow", 3),
-  Description = rep(" Census of Immune Cells, Bone marrow - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease.. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org", 3),
+  Title = paste0("Human Cell Atlas - Census of Immune Cells, Bone marrow, ",
+                 c("'dense matrix' format","sample (column) annotation","gene (row) annotation")),
+  Description = paste0("Census of Immune Cells, Bone marrow - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org - ",
+                       c("Full rectangular, block-compressed format, 1GB block size.",
+                         "Sample descriptions (barcodes).",
+                         "Gene descriptions.")),
   BiocVersion = rep("3.9", 3),
   Genome = rep("GRCh38", 3),
   SourceType = rep("HDF5", 3),
