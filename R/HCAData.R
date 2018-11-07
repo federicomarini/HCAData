@@ -1,4 +1,3 @@
-
 #' @title Download data from the HCA via ExperimentHub
 #'
 #' @description Download HDF5 (dense assay) and RDS (row and column annotations)
@@ -20,12 +19,6 @@
 #' @return A SingleCellExperiment object with a HDF5Matrix in the \code{counts}
 #' assay, containing the UMI counts for each gene in each cell. Row- and column-level
 #' metadata are also provided.
-#'
-#' @importFrom utils read.csv
-#' @importFrom ExperimentHub createHubAccessors ExperimentHub
-#' @importFrom AnnotationHub query
-#' @importFrom HDF5Array HDF5Array
-#' @importFrom SingleCellExperiment SingleCellExperiment
 #'
 #' @export
 #'
