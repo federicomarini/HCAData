@@ -2,8 +2,8 @@
 ## (above pkg directory)
 
 df_HCA_cordblood <- data.frame(
-  Title = rep("HCA_cordblood", 3),
-  Description = rep("10x data from the HCA project, Census of Immune Cells - Umbilical cord blood", 3),
+  Title = rep("Human Cell Atlas - Census of Immune Cells, Umbilical cord blood", 3),
+  Description = rep("Census of Immune Cells, Umbilical cord blood - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org", 3),
   BiocVersion = rep("3.9", 3),
   Genome = rep("GRCh38", 3),
   SourceType = rep("HDF5", 3),
@@ -21,8 +21,8 @@ df_HCA_cordblood <- data.frame(
 )
 
 df_HCA_bonemarrow <- data.frame(
-  Title = rep("HCA_bonemarrow", 3),
-  Description = rep("10x data from the HCA project, Census of Immune Cells - Bone marrow", 3),
+  Title = rep("Human Cell Atlas - Census of Immune Cells, Bone marrow", 3),
+  Description = rep(" Census of Immune Cells, Bone marrow - 10x data from the Human Cell Atlas project, profiling of immunocytes by single cell RNA-seq for understanding human health and disease.. Represented as HDF5 count matrix and serialized rowData and colData objects, derived from the raw counts matrix on https://preview.data.humancellatlas.org", 3),
   BiocVersion = rep("3.9", 3),
   Genome = rep("GRCh38", 3),
   SourceType = rep("HDF5", 3),
