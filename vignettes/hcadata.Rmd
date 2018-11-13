@@ -96,6 +96,8 @@ A natural companion to this data structure is the `r Biocpkg("iSEE")` package, w
 
 Any analysis steps should be performed in advance before calling `iSEE`, and since these datasets can be quite big, the operations can be time consuming, and/or require a considerable amount of resources.
 
+## Processing a subset of the HCA bone marrow data
+
 For the scope of the vignette, we subset some cells in the bone marrow dataset to reduce the runtime, and apply some of the steps one would ideally follow in analysing droplet based datasets.
 For more information on how to properly process such datasets, please refer to the amazing set of resources available in the `r Biocpkg("simpleSingleCell")` workflow package.
 
@@ -153,20 +155,17 @@ table(sce$Cluster)
 plotTSNE(sce, colour_by="Cluster")
 
 
-
-se <- scran::computeSumFactors(se)
-se <- scater::normalize(se)
-se <- scater::runPCA(se)
-se <- scater::runTSNE(se)
-snn.gr <- scran::buildSNNGraph(se, use.dimred="PCA")
-clusters <- igraph::cluster_walktrap(snn.gr)
-se$Cluster <- factor(clusters$membership)
-table(se$Cluster)
-
+# se <- scran::computeSumFactors(se)
+# se <- scater::normalize(se)
+# se <- scater::runPCA(se)
+# se <- scater::runTSNE(se)
+# snn.gr <- scran::buildSNNGraph(se, use.dimred="PCA")
+# clusters <- igraph::cluster_walktrap(snn.gr)
+# se$Cluster <- factor(clusters$membership)
+# table(se$Cluster)
 ```
 
 Once the processing steps above are done, we can call `iSEE` with the subsampled `SingleCellExperiment` object. 
-This opens up an instance of `iSEE` containing the provided data set.
 
 ```{r, eval=FALSE}
 if (require(iSEE)) {
@@ -176,11 +175,11 @@ if (require(iSEE)) {
 
 ## Saving computations
 
-You can save the `se` object to a serialized R object with 
+You can save the `sce` object to a serialized R object with 
 
 ```{r, eval=FALSE}
 destination <- "where/to/store/the/processed/data.rds"
-saveRDS(se, file = destination)
+saveRDS(sce, file = destination)
 ```
 
 The object can be read into a new _R_ session with `readRDS(destination)`, provided the HDF5 file remains in its original location (conveniently stored in the default location of `ExperimentHub`).
@@ -190,187 +189,3 @@ The object can be read into a new _R_ session with `readRDS(destination)`, provi
 ```{r}
 sessionInfo()
 ```
-
-
-
-
-
-
-
-
-## Processing in detail the cord blood dataset
-
-```{r, eval=FALSE}
-sce <- sce_cordblood
-library(scater)
-rownames(sce) <- uniquifyFeatureNames(rowData(sce)$id, rowData(sce)$symbol)
-head(rownames(sce))
-
-library(EnsDb.Hsapiens.v86)
-location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce)$id, 
-    column="SEQNAME", keytype="GENEID")
-rowData(sce)$CHR <- location
-summary(location=="MT")
-
-library("DropletUtils")
-bcrank <- barcodeRanks(counts(sce))
-# Only showing unique points for plotting speed.
-uniq <- !duplicated(bcrank$rank)
-plot(bcrank$rank[uniq], bcrank$total[uniq], log="xy",
-    xlab="Rank", ylab="Total UMI count", cex.lab=1.2)
-abline(h=bcrank$inflection, col="darkgreen", lty=2)
-abline(h=bcrank$knee, col="dodgerblue", lty=2)
-legend("bottomleft", legend=c("Inflection", "Knee"), 
-	col=c("darkgreen", "dodgerblue"), lty=2, cex=1.2)
-
-set.seed(42)
-e.out <- emptyDrops(counts(sce))
-sum(e.out$FDR <= 0.01, na.rm=TRUE)
-table(Sig=e.out$FDR <= 0.01, Limited=e.out$Limited)
-sce <- sce[,which(e.out$FDR <= 0.01)]
-
-## QC
-library(BiocParallel)
-sce <- calculateQCMetrics(sce, feature_controls=list(Mito=which(location=="MT")),BPPARAM = MulticoreParam(4))
-par(mfrow=c(1,3))
-hist(sce$log10_total_counts, breaks=20, col="grey80",
-    xlab="Log-total UMI count")
-hist(sce$log10_total_features_by_counts, breaks=20, col="grey80",
-    xlab="Log-total number of expressed features")
-hist(sce$pct_counts_Mito, breaks=20, col="grey80",
-	xlab="Proportion of reads in mitochondrial genes")
-
-high.mito <- isOutlier(sce$pct_counts_Mito, nmads=3, type="higher")
-summary(high.mito)
-sce <- sce[,!high.mito]
-sce
-
-# the quick subset to see something colourful
-set.seed(42)
-se <- sce[, sample(seq_len(ncol(sce)), 5000, replace = FALSE)]
-se
-pryr::object_size(se)
-
-# moving on with
-counts(se) <- as.matrix(counts(se))
-pryr::object_size(se)
-
-se <- scran::computeSumFactors(se)
-se <- scater::normalize(se)
-
-# logcounts(se) <- log2(t(t(counts(se))/sizeFactors(se)) + 1)
-
-
-se <- scater::runPCA(se)
-
-# other weird errors:
-# Error in .check_Ops_vector_arg_length(e, x_nrow, e_what = e_what, x_what = x_what) : 
-  # right object is longer than first dimension of left object
-se <- scater::runTSNE(se)
-library(scran)
-snn.gr <- buildSNNGraph(se, use.dimred="PCA")
-clusters <- igraph::cluster_walktrap(snn.gr)
-se$Cluster <- factor(clusters$membership)
-table(se$Cluster)
-
-markers <- findMarkers(se, clusters=se$Cluster, direction="up")
-
-marker.set <- markers[["1"]]
-head(marker.set[,1:8], 10) 
-
-marker.set <- markers[["2"]]
-head(marker.set[,1:8], 10) 
-
-marker.set <- markers[["5"]]
-head(marker.set[,1:8], 10) 
-
-marker.set <- markers[["8"]]
-head(marker.set[,1:8], 10) 
-
-library(iSEE)
-
-iSEE(se)
-
-
-
-
-
-# the full way
-
-ave <- calcAverage(sce,use_size_factors = FALSE, BPPARAM = MulticoreParam(4))
-rowData(sce)$AveCount <- ave
-hist(log10(ave), col="grey80")
-
-plotHighestExprs(sce)
-
-
-
-library(scran)
-set.seed(42)
-clusters <- quickCluster(sce, method="igraph", min.mean=0.1,
-    irlba.args=list(maxit=1000)) # for convergence.
-table(clusters)
-sce <- computeSumFactors(sce, min.mean=0.1, cluster=clusters)
-summary(sizeFactors(sce))
-plot(sce$total_counts, sizeFactors(sce), log="xy")
-sce <- normalize(sce)
-
-new.trend <- makeTechTrend(x=sce)
-fit <- trendVar(sce, use.spikes=FALSE, loess.args=list(span=0.05))
-plot(fit$mean, fit$var, pch=16)
-curve(fit$trend(x), col="dodgerblue", add=TRUE)
-curve(new.trend(x), col="red", add=TRUE)
-
-fit0 <- fit
-fit$trend <- new.trend
-dec <- decomposeVar(fit=fit)
-top.dec <- dec[order(dec$bio, decreasing=TRUE),] 
-head(top.dec)
-plotExpression(sce, features=rownames(top.dec)[1:10])
-
-
-
-set.seed(42)
-sce <- denoisePCA(sce, technical=new.trend, approximate=TRUE)
-ncol(reducedDim(sce, "PCA"))
-
-plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
-	ylab="Proportion of variance explained")
-abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
-
-plotPCA(sce, ncomponents=3, colour_by="log10_total_features_by_counts")
-
-set.seed(42)
-sce <- runTSNE(sce, use_dimred="PCA", perplexity=30)
-plotTSNE(sce, colour_by="log10_total_features_by_counts")
-
-## --------------------------------------------------------------------------
-snn.gr <- buildSNNGraph(sce, use.dimred="PCA")
-clusters <- igraph::cluster_walktrap(snn.gr)
-sce$Cluster <- factor(clusters$membership)
-table(sce$Cluster)
-
-cluster.mod <- clusterModularity(snn.gr, sce$Cluster, get.values=TRUE)
-log.ratio <- log2(cluster.mod$observed/cluster.mod$expected + 1)
-
-library(pheatmap)
-pheatmap(log.ratio, cluster_rows=FALSE, cluster_cols=FALSE, 
-    color=colorRampPalette(c("white", "blue"))(100))
-
-plotTSNE(sce, colour_by="Cluster")
-markers <- findMarkers(sce, clusters=sce$Cluster, direction="up")
-
-marker.set <- markers[["8"]]
-head(marker.set[,1:8], 10) # only first 8 columns, for brevity
-
-pf4 <- sapply(marker.set["PF4",-(1:3)], sign)
-chosen <- rownames(marker.set)[marker.set$Top <= 10]
-plotHeatmap(sce, features=chosen, exprs_values="logcounts", 
-    zlim=5, center=TRUE, symmetric=TRUE, cluster_cols=FALSE,
-    colour_columns_by="Cluster", columns=order(sce$Cluster),
-    show_colnames=FALSE)
-
-
-saveRDS(sce, file="pbmc_data.rds")
-```
-
