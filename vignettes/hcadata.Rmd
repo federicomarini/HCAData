@@ -20,7 +20,7 @@ vignette: >
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2018-11-05
+**Last edited**: 2018-11-13
 
 **License**: `r packageDescription("HCAData")[["License"]]`
 
@@ -46,27 +46,157 @@ BiocManager::install("HCAData")
 
 This package makes extensive use of the `r Biocpkg("HDF5Array")` package to avoid loading the entire data set in memory, instead storing the counts on disk as a HDF5 file and loading subsets of the data into memory upon request.
 
-# Loading `HCAData`
+# Loading `HCAData` and the Human Cell Atlas data
 
 ```{r}
 library("HCAData")
 ```
 
 We use the `HCAData` function to download the relevant files from Bioconductor's ExperimentHub web resource. 
+If no argument is provided, a list of the available datasets is returned, specifying which name to enter as `dataset` parameter when calling `HCAData`.
 
-This includes the HDF5 file containing the counts, as well as the metadata on the rows (genes) and columns (cells). 
+```{r}
+HCAData()
+```
+
+The list of relevant files includes the HDF5 file containing the counts, as well as the metadata on the rows (genes) and columns (cells). 
 
 The output is a single `SingleCellExperiment` object from the `r Biocpkg("SingleCellExperiment")` package. 
 
-The `HCAData` data package provides access to 
-
-Snapshot of date: ...
-
-Pkg content available...
+Being based on `r Biocpkg("ExperimentHub")`, the data related to this package can be accessed and queried directly using the package name. 
+Retrieval is then as easy as using their ExperimentHub accession numbers (for the single components of each set), or by using the convenience function provided in this package.
 
 ```{r}
-message("Doing good!")
+suppressPackageStartupMessages({
+  library(ExperimentHub)
+  library(SingleCellExperiment)
+})
+
+eh <- ExperimentHub()
+query(eh, "HCAData")
+
+# these three are the components to the bone marrow dataset
+bonemarrow_h5densematrix <- eh[["EH2047"]]
+bonemarrow_coldata <- eh[["EH2048"]]
+bonemarrow_rowdata <- eh[["EH2049"]]
+
+# and are put together when calling...
+sce_bonemarrow <- HCAData("ica_bone_marrow")
+sce_bonemarrow
+
+# similarly, to access the umbilical cord blood dataset
+sce_cordblood <- HCAData("ica_cord_blood")
+sce_cordblood
 ```
+
+# Explore data with `iSEE`
+
+The datasets are provided in the form of a `SingleCellExperiment` object. 
+A natural companion to this data structure is the `r Biocpkg("iSEE")` package, which can be used for interactive and reproducible data exploration.
+
+Any analysis steps should be performed in advance before calling `iSEE`, and since these datasets can be quite big, the operations can be time consuming, and/or require a considerable amount of resources.
+
+For the scope of the vignette, we subset some cells in the bone marrow dataset to reduce the runtime, and apply some of the steps one would ideally follow in analysing droplet based datasets.
+For more information on how to properly process such datasets, please refer to the amazing set of resources available in the `r Biocpkg("simpleSingleCell")` workflow package.
+
+```{r}
+library(scran)
+library(scater)
+library(igraph)
+
+set.seed(42)
+sce <- sce_bonemarrow[, sample(seq_len(ncol(sce_bonemarrow)), 1000, replace = FALSE)]
+
+rownames(sce) <- uniquifyFeatureNames(rowData(sce)$ID, rowData(sce)$Symbol)
+head(rownames(sce))
+
+counts(sce) <- as.matrix(counts(sce))
+sce <- scater::calculateQCMetrics(sce)
+
+set.seed(42)
+clusters <- quickCluster(sce, method="igraph", min.mean=0.1, irlba.args=list(maxit=1000))
+table(clusters)
+sce <- computeSumFactors(sce, min.mean=0.1, cluster=clusters)
+summary(sizeFactors(sce))
+sce <- normalize(sce)
+
+new.trend <- makeTechTrend(x=sce)
+fit <- trendVar(sce, use.spikes=FALSE, loess.args=list(span=0.05))
+# plot(fit$mean, fit$var, pch=16)
+# curve(fit$trend(x), col="dodgerblue", add=TRUE)
+# curve(new.trend(x), col="red", add=TRUE)
+
+fit0 <- fit
+fit$trend <- new.trend
+dec <- decomposeVar(fit=fit)
+top.dec <- dec[order(dec$bio, decreasing=TRUE),] 
+head(top.dec)
+plotExpression(sce, features=rownames(top.dec)[1:10])
+
+set.seed(42)
+sce <- denoisePCA(sce, technical=new.trend, approximate=TRUE)
+ncol(reducedDim(sce, "PCA"))
+plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
+	ylab="Proportion of variance explained")
+abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
+plotPCA(sce, ncomponents=3, colour_by="log10_total_features_by_counts")
+
+set.seed(42)
+sce <- runTSNE(sce, use_dimred="PCA", perplexity=30)
+plotTSNE(sce, colour_by="log10_total_features_by_counts")
+
+snn.gr <- buildSNNGraph(sce, use.dimred="PCA")
+clusters <- igraph::cluster_walktrap(snn.gr)
+sce$Cluster <- factor(clusters$membership)
+table(sce$Cluster)
+
+plotTSNE(sce, colour_by="Cluster")
+
+
+
+se <- scran::computeSumFactors(se)
+se <- scater::normalize(se)
+se <- scater::runPCA(se)
+se <- scater::runTSNE(se)
+snn.gr <- scran::buildSNNGraph(se, use.dimred="PCA")
+clusters <- igraph::cluster_walktrap(snn.gr)
+se$Cluster <- factor(clusters$membership)
+table(se$Cluster)
+
+```
+
+Once the processing steps above are done, we can call `iSEE` with the subsampled `SingleCellExperiment` object. 
+This opens up an instance of `iSEE` containing the provided data set.
+
+```{r, eval=FALSE}
+if (require(iSEE)) {
+  iSEE(sce)
+}
+```
+
+## Saving computations
+
+You can save the `se` object to a serialized R object with 
+
+```{r, eval=FALSE}
+destination <- "where/to/store/the/processed/data.rds"
+saveRDS(se, file = destination)
+```
+
+The object can be read into a new _R_ session with `readRDS(destination)`, provided the HDF5 file remains in its original location (conveniently stored in the default location of `ExperimentHub`).
+
+# Session info
+
+```{r}
+sessionInfo()
+```
+
+
+
+
+
+
+
 
 ## Processing in detail the cord blood dataset
 
@@ -113,16 +243,54 @@ hist(sce$pct_counts_Mito, breaks=20, col="grey80",
 high.mito <- isOutlier(sce$pct_counts_Mito, nmads=3, type="higher")
 summary(high.mito)
 sce <- sce[,!high.mito]
-
+sce
 
 # the quick subset to see something colourful
 set.seed(42)
-se <- sce[, sample(seq_len(ncol(sce)), 2500, replace = FALSE)]
+se <- sce[, sample(seq_len(ncol(sce)), 5000, replace = FALSE)]
 se
+pryr::object_size(se)
+
+# moving on with
+counts(se) <- as.matrix(counts(se))
+pryr::object_size(se)
+
 se <- scran::computeSumFactors(se)
 se <- scater::normalize(se)
+
+# logcounts(se) <- log2(t(t(counts(se))/sizeFactors(se)) + 1)
+
+
 se <- scater::runPCA(se)
+
+# other weird errors:
+# Error in .check_Ops_vector_arg_length(e, x_nrow, e_what = e_what, x_what = x_what) : 
+  # right object is longer than first dimension of left object
 se <- scater::runTSNE(se)
+library(scran)
+snn.gr <- buildSNNGraph(se, use.dimred="PCA")
+clusters <- igraph::cluster_walktrap(snn.gr)
+se$Cluster <- factor(clusters$membership)
+table(se$Cluster)
+
+markers <- findMarkers(se, clusters=se$Cluster, direction="up")
+
+marker.set <- markers[["1"]]
+head(marker.set[,1:8], 10) 
+
+marker.set <- markers[["2"]]
+head(marker.set[,1:8], 10) 
+
+marker.set <- markers[["5"]]
+head(marker.set[,1:8], 10) 
+
+marker.set <- markers[["8"]]
+head(marker.set[,1:8], 10) 
+
+library(iSEE)
+
+iSEE(se)
+
 
 
 
@@ -204,31 +372,5 @@ plotHeatmap(sce, features=chosen, exprs_values="logcounts",
 
 
 saveRDS(sce, file="pbmc_data.rds")
-```
-
-Performing some analysis?
-
-```{r}
-
-```
-
-Or displaying the analysis already done on this?
-
-
-# Explore data with `iSEE`
-
-The datasets are provided in the form of a `SingleCellExperiment` object. 
-A natural companion to this data structure is the `r Biocpkg("iSEE")` package, which can be used for interactive and reproducible data exploration.
-
-```{r, eval=FALSE}
-library(iSEE)
-iSEE(sce_cordblood)
-iSEE(sce_bonemarrow)
-```
-
-# Session info
-
-```{r}
-sessionInfo()
 ```
 
