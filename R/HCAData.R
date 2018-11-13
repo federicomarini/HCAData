@@ -24,12 +24,20 @@
 #'
 #' @examples
 #' \dontrun{
-#' sce_bonemarrow <- HCAData()
+#' HCAData()
 #' sce_cordblood <- HCAData("ica_cord_blood")
 #' }
-HCAData <- function(dataset =
-                      c("ica_bone_marrow", "ica_cord_blood")) {
+HCAData <- function(dataset = NULL) {
+  available_datasets <- c("ica_bone_marrow", "ica_cord_blood")
+
+  if(is.null(dataset)){
+    message("No dataset name provided, please choose one of the following: \n",
+            paste(available_datasets,collapse = "\n"))
+    return(invisible(NULL))
+  }
+
   dataset <- match.arg(dataset)
+  message("Retrieving Human Cell Atlas dataset: ", dataset)
   hub <- ExperimentHub::ExperimentHub()
   base <- "HCAData/"
 
