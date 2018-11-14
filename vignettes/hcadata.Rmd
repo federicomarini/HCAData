@@ -138,7 +138,7 @@ set.seed(42)
 sce <- denoisePCA(sce, technical=new.trend, approximate=TRUE)
 ncol(reducedDim(sce, "PCA"))
 plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
-	ylab="Proportion of variance explained")
+     ylab="Proportion of variance explained")
 abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
 plotPCA(sce, ncomponents=3, colour_by="log10_total_features_by_counts")
 
