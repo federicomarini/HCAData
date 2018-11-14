@@ -1,5 +1,19 @@
 context("sce objects are correct")
 
+test_that("empty call", {
+  library(HCAData)
+  library(SingleCellExperiment)
+  expect_message(HCAData())
+})
+
+test_that("wrong call to the dataset", {
+  library(HCAData)
+  library(SingleCellExperiment)
+  expect_error(HCAData("cordblood"))
+})
+
+
+
 test_that("cord blood data is correct", {
   library(HCAData)
   library(SingleCellExperiment)
