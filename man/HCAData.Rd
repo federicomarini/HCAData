@@ -31,8 +31,6 @@ This current release includes the following datasets:
 }
 }
 \examples{
-\dontrun{
 HCAData()
 sce_cordblood <- HCAData("ica_cord_blood")
-}
 }

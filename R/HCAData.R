@@ -23,10 +23,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' HCAData()
 #' sce_cordblood <- HCAData("ica_cord_blood")
-#' }
 HCAData <- function(dataset = NULL) {
   available_datasets <- c("ica_bone_marrow", "ica_cord_blood")
   if(!is.null(dataset)) {
