@@ -101,7 +101,7 @@ Any analysis steps should be performed in advance before calling `iSEE`, and sin
 For the scope of the vignette, we subset some cells in the bone marrow dataset to reduce the runtime, and apply some of the steps one would ideally follow in analysing droplet based datasets.
 For more information on how to properly process such datasets, please refer to the amazing set of resources available in the `r Biocpkg("simpleSingleCell")` workflow package.
 
-```{r}
+```{r, eval=FALSE}
 library(scran)
 library(scater)
 
