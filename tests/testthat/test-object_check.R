@@ -12,8 +12,6 @@ test_that("wrong call to the dataset", {
   expect_error(HCAData("cordblood"))
 })
 
-
-
 test_that("cord blood data is correct", {
   library(HCAData)
   library(SingleCellExperiment)

@@ -14,7 +14,7 @@ If you use the data, please refer to the original sources as well (plus the rela
 
 ## Some additional information
 
-- The cellranger-processed data files and metadata were downloaded from the links provided in [the Data Portal](https://preview.data.humancellatlas.org) on November 5, 2018
+- The [`cellranger`](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger)-processed data files and metadata were downloaded from the links provided in [the Data Portal](https://preview.data.humancellatlas.org) on November 5, 2018
 
 - This current release includes the following datasets:
 
