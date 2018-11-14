@@ -29,9 +29,11 @@
 #' }
 HCAData <- function(dataset = NULL) {
   available_datasets <- c("ica_bone_marrow", "ica_cord_blood")
-  if(!(dataset %in% available_datasets)) {
-    stop("No dataset found with the specified name, please choose one of the following: \n",
-          paste(available_datasets,collapse = "\n"))
+  if(!is.null(dataset)) {
+    if(!(dataset %in% available_datasets)) {
+      stop("No dataset found with the specified name, please choose one of the following: \n",
+           paste(available_datasets,collapse = "\n"))
+    }
   }
 
   if(is.null(dataset)){

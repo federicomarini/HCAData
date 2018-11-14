@@ -4,7 +4,7 @@
 \alias{HCAData}
 \title{Download data from the HCA via ExperimentHub}
 \usage{
-HCAData(dataset = c("ica_bone_marrow", "ica_cord_blood"))
+HCAData(dataset = NULL)
 }
 \arguments{
 \item{dataset}{A character string: which dataset should be retrieved?}
@@ -32,7 +32,7 @@ This current release includes the following datasets:
 }
 \examples{
 \dontrun{
-sce_bonemarrow <- HCAData()
+HCAData()
 sce_cordblood <- HCAData("ica_cord_blood")
 }
 }
