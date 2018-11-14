@@ -23,6 +23,8 @@
 #' @export
 #'
 #' @examples
+#' library(HCAData)
+#' library(SingleCellExperiment)
 #' HCAData()
 #' sce_cordblood <- HCAData("ica_cord_blood")
 HCAData <- function(dataset = NULL) {
