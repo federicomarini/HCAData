@@ -104,7 +104,6 @@ For more information on how to properly process such datasets, please refer to t
 ```{r}
 library(scran)
 library(scater)
-library(igraph)
 
 set.seed(42)
 sce <- sce_bonemarrow[, sample(seq_len(ncol(sce_bonemarrow)), 1000, replace = FALSE)]
