@@ -25,3 +25,5 @@ Some new dataset has been released but it is not in this package!
 -----------------------------------------------------------------
 
 In this case, feel free to contact the author(s) of this package, and/or to provide a complete pull request with the recipe to add the missing dataset.
+
+To get initial guidance for this, please refer to the excellent vignettes of the [ExperimentHub](https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html) package.
