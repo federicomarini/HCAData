@@ -24,6 +24,7 @@ Suggests: knitr,
     BiocStyle,
     scran,
     scater,
+    igraph,
     iSEE,
     testthat
 VignetteBuilder: knitr
