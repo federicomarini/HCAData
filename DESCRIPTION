@@ -1,7 +1,7 @@
 Package: HCAData
 Type: Package
 Title: Accessing The Datasets Of The Human Cell Atlas in R/Bioconductor
-Version: 0.1.0
+Version: 0.99.0
 Authors@R: c(
     person("Federico","Marini", role=c("aut","cre"), email="marinif@uni-mainz.de",
     comment = c(ORCID = '0000-0003-3252-7758')))
