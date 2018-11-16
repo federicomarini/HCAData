@@ -13,7 +13,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 biocViews: RNASeqData, SingleCellData, ExperimentData, ExpressionData, ExperimentHub
-Depends: R (>= 3.5)
+Depends: R (>= 3.6)
 Imports: ExperimentHub,
     AnnotationHub,
     SingleCellExperiment,
