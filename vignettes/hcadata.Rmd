@@ -60,7 +60,7 @@ Instead, it stores the counts on disk as a HDF5 file, and loads subsets of the d
 library("HCAData")
 ```
 
-We use the `HCAData` function to download the relevant files from Bioconductor's ExperimentHub web resource. 
+We use the `HCAData` function to download the relevant files from Bioconductor's `r Biocpkg("ExperimentHub")` web resource. 
 If no argument is provided, a list of the available datasets is returned, specifying which name to enter as `dataset` parameter when calling `HCAData`.
 
 ```{r}
