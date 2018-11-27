@@ -47,12 +47,12 @@ HCAData <- function(dataset = NULL) {
   rowData <- query(hub, rdatapath)[[1]]
 
   suppressMessages({
-    rdatapath <- paste0(base, dataset, "_colData.rds")
-    colData <- query(hub, rdatapath)[[1]]
+    cdatapath <- paste0(base, dataset, "_colData.rds")
+    colData <- query(hub, cdatapath)[[1]]
 
     ## HDF5, from ExperimentHub:
-    rdatapath <- paste0(base, dataset, "_rectangular.h5")
-    h5file <- query(hub, rdatapath)[[1]]
+    h5datapath <- paste0(base, dataset, "_rectangular.h5")
+    h5file <- query(hub, h5datapath)[[1]]
   })
   h5array <- HDF5Array(h5file, "counts")
 
