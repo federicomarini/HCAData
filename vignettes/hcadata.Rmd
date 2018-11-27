@@ -160,16 +160,6 @@ sce$Cluster <- factor(clusters$membership)
 table(sce$Cluster)
 
 plotTSNE(sce, colour_by="Cluster")
-
-
-# se <- scran::computeSumFactors(se)
-# se <- scater::normalize(se)
-# se <- scater::runPCA(se)
-# se <- scater::runTSNE(se)
-# snn.gr <- scran::buildSNNGraph(se, use.dimred="PCA")
-# clusters <- igraph::cluster_walktrap(snn.gr)
-# se$Cluster <- factor(clusters$membership)
-# table(se$Cluster)
 ```
 
 Once the processing steps above are done, we can call `iSEE` with the subsampled `SingleCellExperiment` object. 
@@ -189,9 +179,9 @@ destination <- "where/to/store/the/processed/data.rds"
 saveRDS(sce, file = destination)
 ```
 
-The object can be read into a new _R_ session with `readRDS(destination)`, provided the HDF5 file remains in its original location (conveniently stored in the default location of `ExperimentHub`).
+The object can be read into a new R session with `readRDS(destination)`, provided the HDF5 file remains in its original location (conveniently stored in the default location of `ExperimentHub`).
 
-# Session info
+# Session info {-}
 
 ```{r}
 sessionInfo()
