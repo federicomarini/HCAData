@@ -32,9 +32,7 @@ HCAData <- function(dataset = NULL) {
       stop("No dataset found with the specified name, please choose one of the following: \n",
            paste(available_datasets,collapse = "\n"))
     }
-  }
-
-  if(is.null(dataset)){
+  } else {
     message("No dataset name provided, please choose one of the following: \n",
             paste(available_datasets,collapse = "\n"))
     return(invisible(NULL))
