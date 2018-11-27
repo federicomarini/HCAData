@@ -2,19 +2,16 @@ context("sce objects are correct")
 
 test_that("empty call", {
   library(HCAData)
-  library(SingleCellExperiment)
   expect_message(HCAData())
 })
 
 test_that("wrong call to the dataset", {
   library(HCAData)
-  library(SingleCellExperiment)
   expect_error(HCAData("cordblood"))
 })
 
 test_that("cord blood data is correct", {
   library(HCAData)
-  library(SingleCellExperiment)
   sce_cordblood <- HCAData("ica_cord_blood")
   expect_is(sce_cordblood, "SingleCellExperiment")
   expect_equal(nrow(sce_cordblood), 33694)
@@ -26,7 +23,6 @@ test_that("cord blood data is correct", {
 
 test_that("bone marrow data is correct", {
   library(HCAData)
-  library(SingleCellExperiment)
   sce_bonemarrow <- HCAData("ica_bone_marrow")
   expect_is(sce_bonemarrow, "SingleCellExperiment")
   expect_equal(nrow(sce_bonemarrow), 33694)
