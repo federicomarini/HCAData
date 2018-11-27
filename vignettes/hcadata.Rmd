@@ -179,7 +179,7 @@ if (require(iSEE)) {
 }
 ```
 
-## Saving computations
+## Saving the processed object
 
 You can save the `sce` object to a serialized R object with 
 
