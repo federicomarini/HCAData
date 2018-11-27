@@ -51,7 +51,8 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("HCAData")
 ```
 
-This package makes extensive use of the `r Biocpkg("HDF5Array")` package to avoid loading the entire data set in memory, instead storing the counts on disk as a HDF5 file and loading subsets of the data into memory upon request.
+This package makes extensive use of the `r Biocpkg("HDF5Array")` package to avoid loading the entire data set in memory.
+Instead, it stores the counts on disk as a HDF5 file, and loads subsets of the data into memory upon request.
 
 # Loading `HCAData` and the Human Cell Atlas data
 
