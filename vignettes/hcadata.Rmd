@@ -20,7 +20,7 @@ vignette: >
 
 **Compiled date**: `r Sys.Date()`
 
-**Last edited**: 2018-11-13
+**Last edited**: 2019-05-24
 
 **License**: `r packageDescription("HCAData")[["License"]]`
 
@@ -113,6 +113,7 @@ In brief: we start loading the required libraries for preprocessing, and taking 
 
 ```{r}
 library(scran)
+library(BiocSingular)
 library(scater)
 
 set.seed(42)
@@ -134,7 +135,7 @@ We proceed with normalization, performed with the deconvolution method implement
 
 ```{r}
 set.seed(42)
-clusters <- quickCluster(sce, method="igraph", min.mean=0.1, irlba.args=list(maxit=1000))
+clusters <- quickCluster(sce, use.ranks=FALSE, BSPARAM=IrlbaParam())
 table(clusters)
 sce <- computeSumFactors(sce, min.mean=0.1, cluster=clusters)
 summary(sizeFactors(sce))
@@ -164,7 +165,7 @@ Once we computed the PCA, we provide that as initialization to `runTSNE`, and ob
 
 ```{r}
 set.seed(42)
-sce <- denoisePCA(sce, technical=new.trend, approximate=TRUE)
+sce <- denoisePCA(sce, technical=new.trend, BSPARAM=IrlbaParam())
 ncol(reducedDim(sce, "PCA"))
 plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
      ylab="Proportion of variance explained")
