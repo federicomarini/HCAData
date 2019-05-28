@@ -4,7 +4,9 @@ output:
     variant: markdown_github
 ---
 
-# HCAData
+# HCAData 
+
+Available at http://bioconductor.org/packages/HCAData/.
 
 This is an R/[ExperimentHub](https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html) package for accessing data from the [Human Cell Atlas](https://www.humancellatlas.org) as [`SingleCellExperiment`](https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html) objects.
 
