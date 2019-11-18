@@ -28,5 +28,6 @@ Suggests: knitr,
     igraph,
     iSEE,
     testthat
+URL: https://github.com/federicomarini/HCAData
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
