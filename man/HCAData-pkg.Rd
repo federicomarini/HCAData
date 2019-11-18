@@ -3,7 +3,6 @@
 \docType{package}
 \name{HCAData-pkg}
 \alias{HCAData-pkg}
-\alias{HCAData-pkg-package}
 \title{HCAData: Accessing The Datasets Of The Human Cell Atlas in R/Bioconductor}
 \description{
 \code{HCAData} is an ExperimentHub package which provides access to the single-cell

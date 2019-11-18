@@ -45,7 +45,7 @@ The datasets are otherwise available in other formats (also as raw data) at this
 
 The `r Biocpkg("HCAData")` package can be installed in the conventional way via `r CRANpkg("BiocManager")`.
 
-```{r, eval=FALSE}
+```{r install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("HCAData")
@@ -56,14 +56,14 @@ Instead, it stores the counts on disk as a HDF5 file, and loads subsets of the d
 
 # Loading `HCAData` and the Human Cell Atlas data
 
-```{r}
+```{r loadpkg}
 library("HCAData")
 ```
 
 We use the `HCAData` function to download the relevant files from Bioconductor's `r Biocpkg("ExperimentHub")` web resource. 
 If no argument is provided, a list of the available datasets is returned, specifying which name to enter as `dataset` parameter when calling `HCAData`.
 
-```{r}
+```{r firstcall}
 HCAData()
 ```
 
@@ -74,7 +74,7 @@ The output is a single `SingleCellExperiment` object from the `r Biocpkg("Single
 Being based on `r Biocpkg("ExperimentHub")`, the data related to this package can be accessed and queried directly using the package name. 
 Retrieval is then as easy as using their ExperimentHub accession numbers (for the single components of each set), or by using the convenience function provided in this package.
 
-```{r}
+```{r fetchingdata}
 suppressPackageStartupMessages({
   library(ExperimentHub)
   library(SingleCellExperiment)
@@ -111,7 +111,7 @@ For more information on how to properly process such datasets, please refer to t
 
 In brief: we start loading the required libraries for preprocessing, and taking a subset of the bone marrow dataset
 
-```{r}
+```{r subset}
 library(scran)
 library(BiocSingular)
 library(scater)
@@ -121,41 +121,41 @@ sce <- sce_bonemarrow[, sample(seq_len(ncol(sce_bonemarrow)), 1000, replace = FA
 ```
 
 First, we relabel the rows with the gene symbols for easier reading with the `uniquifyFeatureNames()` function from `r Biocpkg("scater")`.
-Then we compute some QC metrics, using `calculateQCMetrics()`.
+Then we compute some QC metrics and add these to the original `sce` object, using `addPerCellQC()`.
 
-```{r}
+```{r featureanno}
 rownames(sce) <- uniquifyFeatureNames(rowData(sce)$ID, rowData(sce)$Symbol)
 head(rownames(sce))
 
 counts(sce) <- as.matrix(counts(sce))
-sce <- scater::calculateQCMetrics(sce)
+sce <- scater::addPerCellQC(sce)
 ```
 
 We proceed with normalization, performed with the deconvolution method implemented in `r Biocpkg("scran")` - a pre-clustering step is done in advance, to avoid pooling cells that are very different between each other.
 
-```{r}
+```{r clustnorm}
+lib.sf.bonemarrow <- librarySizeFactors(sce)
+summary(lib.sf.bonemarrow)
+
 set.seed(42)
-clusters <- quickCluster(sce, use.ranks=FALSE, BSPARAM=IrlbaParam())
+clusters <- quickCluster(sce)
 table(clusters)
 sce <- computeSumFactors(sce, min.mean=0.1, cluster=clusters)
-summary(sizeFactors(sce))
-sce <- normalize(sce)
+sce <- logNormCounts(sce)
+assayNames(sce)
 ```
 
 In the following lines of code, we model the mean-variance trend (with technical noise as Poisson), to extract the biological component of the variance for the genes under inspection.
 
-```{r}
-new.trend <- makeTechTrend(x=sce)
-fit <- trendVar(sce, use.spikes=FALSE, loess.args=list(span=0.05))
-# plot(fit$mean, fit$var, pch=16)
-# curve(fit$trend(x), col="dodgerblue", add=TRUE)
-# curve(new.trend(x), col="red", add=TRUE)
-
-fit0 <- fit
-fit$trend <- new.trend
-dec <- decomposeVar(fit=fit)
-top.dec <- dec[order(dec$bio, decreasing=TRUE),] 
+```{r hvg}
+dec.bonemarrow <- modelGeneVarByPoisson(sce)
+top.dec <- dec.bonemarrow[order(dec.bonemarrow$bio, decreasing=TRUE),] 
 head(top.dec)
+
+fit.bonemarrow <- metadata(dec.bonemarrow)
+plot(fit.bonemarrow$mean, fit.bonemarrow$var, xlab="Mean of log-expression",
+    ylab="Variance of log-expression", pch = 16)
+curve(fit.bonemarrow$trend(x), col="dodgerblue", add=TRUE, lwd=2)
 plotExpression(sce, features=rownames(top.dec)[1:10])
 ```
 
@@ -163,24 +163,26 @@ With the `denoisePCA` function from `r Biocpkg("scran")`, we can compute a reduc
 
 Once we computed the PCA, we provide that as initialization to `runTSNE`, and obtain the t-SNE results, stored in the appropriate slot of our `sce` object. 
 
-```{r}
+```{r dimred}
+hvg.bonemarrow <- getTopHVGs(dec.bonemarrow, prop = 0.1)
+
 set.seed(42)
-sce <- denoisePCA(sce, technical=new.trend, BSPARAM=IrlbaParam())
+sce <- denoisePCA(sce, technical=dec.bonemarrow, subset.row = hvg.bonemarrow, BSPARAM=IrlbaParam())
 ncol(reducedDim(sce, "PCA"))
 plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
      ylab="Proportion of variance explained")
 abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
-plotPCA(sce, ncomponents=3, colour_by="log10_total_features_by_counts")
+plotPCA(sce, ncomponents=3, colour_by="percent_top_500")
 
 set.seed(42)
-sce <- runTSNE(sce, use_dimred="PCA", perplexity=30)
-plotTSNE(sce, colour_by="log10_total_features_by_counts")
+sce <- runTSNE(sce, dimred="PCA", perplexity=30)
+plotTSNE(sce, colour_by="percent_top_500")
 ```
 
 After this, we can compute a shared nearest neighbour graph to identify clusters in our dataset.
 Once the cluster memberships are defined, we assign this vector to a corresponding `colData` slot, and plot the t-SNE for our subset, coloured accordingly.
 
-```{r}
+```{r clusters}
 snn.gr <- buildSNNGraph(sce, use.dimred="PCA")
 clusters <- igraph::cluster_walktrap(snn.gr)
 sce$Cluster <- factor(clusters$membership)
@@ -196,7 +198,7 @@ To read more on what can be done, the vignettes of the `r Biocpkg("simpleSingleC
 
 Once the processing steps above are done, we can call `iSEE` with the subsampled `SingleCellExperiment` object. 
 
-```{r, eval=FALSE}
+```{r launchisee, eval=FALSE}
 if (require(iSEE)) {
   iSEE(sce)
 }
@@ -206,7 +208,7 @@ if (require(iSEE)) {
 
 You can save the `sce` object to a serialized R object with 
 
-```{r, eval=FALSE}
+```{r save, eval=FALSE}
 destination <- "where/to/store/the/processed/data.rds"
 saveRDS(sce, file = destination)
 ```
@@ -215,6 +217,6 @@ The object can be read into a new R session with `readRDS(destination)`, provide
 
 # Session info {-}
 
-```{r}
+```{r sessioninfo}
 sessionInfo()
 ```
