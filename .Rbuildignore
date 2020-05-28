@@ -6,3 +6,4 @@ h5$
 rds$
 README.Rmd
 ^\.travis\.yml$
+^\.github$

@@ -5,8 +5,9 @@ output:
 ---
 
 <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/federicomarini/HCAData.svg?branch=master)](https://travis-ci.org/federicomarini/HCAData)
-  <!-- badges: end -->
+[![R build status](https://github.com/federicomarini/HCAData/workflows/R-CMD-check/badge.svg)](https://github.com/federicomarini/HCAData/actions)
+[![Travis build status](https://travis-ci.org/federicomarini/HCAData.svg?branch=master)](https://travis-ci.org/federicomarini/HCAData)
+<!-- badges: end -->
 
 # HCAData 
 
