@@ -76,8 +76,8 @@ Retrieval is then as easy as using their ExperimentHub accession numbers (for th
 
 ```{r fetchingdata}
 suppressPackageStartupMessages({
-  library(ExperimentHub)
-  library(SingleCellExperiment)
+  library("ExperimentHub")
+  library("SingleCellExperiment")
 })
 
 eh <- ExperimentHub()
@@ -112,9 +112,9 @@ For more information on how to properly process such datasets, please refer to t
 In brief: we start loading the required libraries for preprocessing, and taking a subset of the bone marrow dataset
 
 ```{r subset}
-library(scran)
-library(BiocSingular)
-library(scater)
+library("scran")
+library("BiocSingular")
+library("scater")
 
 set.seed(42)
 sce <- sce_bonemarrow[, sample(seq_len(ncol(sce_bonemarrow)), 1000, replace = FALSE)]
@@ -128,7 +128,7 @@ rownames(sce) <- uniquifyFeatureNames(rowData(sce)$ID, rowData(sce)$Symbol)
 head(rownames(sce))
 
 counts(sce) <- as.matrix(counts(sce))
-sce <- scater::addPerCellQC(sce)
+sce <- addPerCellQC(sce)
 ```
 
 We proceed with normalization, performed with the deconvolution method implemented in `r Biocpkg("scran")` - a pre-clustering step is done in advance, to avoid pooling cells that are very different between each other.
@@ -167,16 +167,19 @@ Once we computed the PCA, we provide that as initialization to `runTSNE`, and ob
 hvg.bonemarrow <- getTopHVGs(dec.bonemarrow, prop = 0.1)
 
 set.seed(42)
-sce <- denoisePCA(sce, technical=dec.bonemarrow, subset.row = hvg.bonemarrow, BSPARAM=IrlbaParam())
+sce <- denoisePCA(sce, 
+                  technical=dec.bonemarrow, 
+                  subset.row = hvg.bonemarrow, 
+                  BSPARAM=IrlbaParam())
 ncol(reducedDim(sce, "PCA"))
 plot(attr(reducedDim(sce), "percentVar"), xlab="PC",
      ylab="Proportion of variance explained")
 abline(v=ncol(reducedDim(sce, "PCA")), lty=2, col="red")
-plotPCA(sce, ncomponents=3, colour_by="percent_top_500")
+plotPCA(sce, ncomponents=3, colour_by="detected")
 
 set.seed(42)
 sce <- runTSNE(sce, dimred="PCA", perplexity=30)
-plotTSNE(sce, colour_by="percent_top_500")
+plotTSNE(sce, colour_by="detected")
 ```
 
 After this, we can compute a shared nearest neighbour graph to identify clusters in our dataset.
