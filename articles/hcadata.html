@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">HCAData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz<br><a class="author_email" href="mailto:#"></a><a href="mailto:marinif@uni-mainz.de" class="email">marinif@uni-mainz.de</a>
       </address>
                   
-            <h4 class="date">28 May 2020</h4>
+            <h4 class="date">11 June 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/federicomarini/HCAData/blob/master/vignettes/hcadata.Rmd"><code>vignettes/hcadata.Rmd</code></a></small>
       <div class="hidden name"><code>hcadata.Rmd</code></div>
@@ -97,7 +97,7 @@
 
     
     
-<p><strong>Compiled date</strong>: 2020-05-28</p>
+<p><strong>Compiled date</strong>: 2020-06-11</p>
 <p><strong>Last edited</strong>: 2019-05-24</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="introducing-the-hcadata-package" class="section level1">
@@ -126,14 +126,14 @@
 <p>The output is a single <code>SingleCellExperiment</code> object from the <em><a href="https://bioconductor.org/packages/3.12/SingleCellExperiment">SingleCellExperiment</a></em> package.</p>
 <p>Being based on <em><a href="https://bioconductor.org/packages/3.12/ExperimentHub">ExperimentHub</a></em>, the data related to this package can be accessed and queried directly using the package name. Retrieval is then as easy as using their ExperimentHub accession numbers (for the single components of each set), or by using the convenience function provided in this package.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span>({
-  <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ExperimentHub</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">SingleCellExperiment</span>)
+  <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"ExperimentHub"</span>)
+  <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"SingleCellExperiment"</span>)
 })
 
 <span class="no">eh</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ExperimentHub/man/ExperimentHub-class.html">ExperimentHub</a></span>()
 <span class="fu">query</span>(<span class="no">eh</span>, <span class="st">"HCAData"</span>)
 <span class="co">#&gt; ExperimentHub with 6 records</span>
-<span class="co">#&gt; # snapshotDate(): 2020-05-19</span>
+<span class="co">#&gt; # snapshotDate(): 2020-06-11</span>
 <span class="co">#&gt; # $dataprovider: Human Cell Atlas</span>
 <span class="co">#&gt; # $species: Homo sapiens</span>
 <span class="co">#&gt; # $rdataclass: character</span>
@@ -202,22 +202,25 @@
 <a href="#processing-a-subset-of-the-hca-bone-marrow-data" class="anchor"></a>Processing a subset of the HCA bone marrow data</h2>
 <p>For the scope of the vignette, we subset some cells in the bone marrow dataset to reduce the runtime, and apply some of the steps one would ideally follow in analysing droplet based datasets. For more information on how to properly process such datasets, please refer to the amazing set of resources available in the <em><a href="https://bioconductor.org/packages/3.12/simpleSingleCell">simpleSingleCell</a></em> workflow package.</p>
 <p>In brief: we start loading the required libraries for preprocessing, and taking a subset of the bone marrow dataset</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">scran</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">BiocSingular</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">scater</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"scran"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"BiocSingular"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"scater"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"scuttle"</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">sce</span> <span class="kw">&lt;-</span> <span class="no">sce_bonemarrow</span>[, <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">sce_bonemarrow</span>)), <span class="fl">1000</span>, <span class="kw">replace</span> <span class="kw">=</span> <span class="fl">FALSE</span>)]</pre></body></html></div>
-<p>First, we relabel the rows with the gene symbols for easier reading with the <code><a href="https://rdrr.io/pkg/scater/man/uniquifyFeatureNames.html">uniquifyFeatureNames()</a></code> function from <em><a href="https://bioconductor.org/packages/3.12/scater">scater</a></em>. Then we compute some QC metrics and add these to the original <code>sce</code> object, using <code><a href="https://rdrr.io/pkg/scater/man/addPerCellQC.html">addPerCellQC()</a></code>.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">sce</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/uniquifyFeatureNames.html">uniquifyFeatureNames</a></span>(<span class="fu">rowData</span>(<span class="no">sce</span>)$<span class="no">ID</span>, <span class="fu">rowData</span>(<span class="no">sce</span>)$<span class="no">Symbol</span>)
+<p>First, we relabel the rows with the gene symbols for easier reading with the <code><a href="https://rdrr.io/pkg/scater/man/reexports.html">uniquifyFeatureNames()</a></code> function from <em><a href="https://bioconductor.org/packages/3.12/scater">scater</a></em>. Then we compute some QC metrics and add these to the original <code>sce</code> object, using <code><a href="https://rdrr.io/pkg/scater/man/reexports.html">addPerCellQC()</a></code>.</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">sce</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/reexports.html">uniquifyFeatureNames</a></span>(<span class="fu">rowData</span>(<span class="no">sce</span>)$<span class="no">ID</span>, <span class="fu">rowData</span>(<span class="no">sce</span>)$<span class="no">Symbol</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">sce</span>))
 <span class="co">#&gt; [1] "RP11-34P13.3"  "FAM138A"       "OR4F5"         "RP11-34P13.7" </span>
 <span class="co">#&gt; [5] "RP11-34P13.8"  "RP11-34P13.14"</span>
 
+<span class="no">is.mito</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"MT-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">sce</span>))
+
 <span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html">counts</a></span>(<span class="no">sce</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/assays.html">counts</a></span>(<span class="no">sce</span>))
-<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="kw pkg">scater</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/scater/man/addPerCellQC.html">addPerCellQC</a></span>(<span class="no">sce</span>)</pre></body></html></div>
+<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="kw pkg">scuttle</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/scuttle/man/addPerCellQC.html">addPerCellQC</a></span>(<span class="no">sce</span>, <span class="kw">subsets</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">Mito</span><span class="kw">=</span><span class="no">is.mito</span>))</pre></body></html></div>
 <p>We proceed with normalization, performed with the deconvolution method implemented in <em><a href="https://bioconductor.org/packages/3.12/scran">scran</a></em> - a pre-clustering step is done in advance, to avoid pooling cells that are very different between each other.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">lib.sf.bonemarrow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/librarySizeFactors.html">librarySizeFactors</a></span>(<span class="no">sce</span>)
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">lib.sf.bonemarrow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/reexports.html">librarySizeFactors</a></span>(<span class="no">sce</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">lib.sf.bonemarrow</span>)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;  0.0157  0.3407  0.6291  1.0000  0.9087 18.0304</span>
@@ -229,7 +232,7 @@
 <span class="co">#&gt;   1   2   3   4   5 </span>
 <span class="co">#&gt; 137 232 207 239 185</span>
 <span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/computeSumFactors.html">computeSumFactors</a></span>(<span class="no">sce</span>, <span class="kw">min.mean</span><span class="kw">=</span><span class="fl">0.1</span>, <span class="kw">cluster</span><span class="kw">=</span><span class="no">clusters</span>)
-<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/logNormCounts.html">logNormCounts</a></span>(<span class="no">sce</span>)
+<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/reexports.html">logNormCounts</a></span>(<span class="no">sce</span>)
 <span class="fu">assayNames</span>(<span class="no">sce</span>)
 <span class="co">#&gt; [1] "counts"    "logcounts"</span></pre></body></html></div>
 <p>In the following lines of code, we model the mean-variance trend (with technical noise as Poisson), to extract the biological component of the variance for the genes under inspection.</p>
@@ -258,19 +261,22 @@
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">hvg.bonemarrow</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/getTopHVGs.html">getTopHVGs</a></span>(<span class="no">dec.bonemarrow</span>, <span class="kw">prop</span> <span class="kw">=</span> <span class="fl">0.1</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
-<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/denoisePCA.html">denoisePCA</a></span>(<span class="no">sce</span>, <span class="kw">technical</span><span class="kw">=</span><span class="no">dec.bonemarrow</span>, <span class="kw">subset.row</span> <span class="kw">=</span> <span class="no">hvg.bonemarrow</span>, <span class="kw">BSPARAM</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html">IrlbaParam</a></span>())
+<span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/denoisePCA.html">denoisePCA</a></span>(<span class="no">sce</span>,
+                  <span class="kw">technical</span><span class="kw">=</span><span class="no">dec.bonemarrow</span>,
+                  <span class="kw">subset.row</span> <span class="kw">=</span> <span class="no">hvg.bonemarrow</span>,
+                  <span class="kw">BSPARAM</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/BiocSingular/man/BiocSingularParam.html">IrlbaParam</a></span>())
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html">reducedDim</a></span>(<span class="no">sce</span>, <span class="st">"PCA"</span>))
 <span class="co">#&gt; [1] 5</span>
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html">reducedDim</a></span>(<span class="no">sce</span>), <span class="st">"percentVar"</span>), <span class="kw">xlab</span><span class="kw">=</span><span class="st">"PC"</span>,
      <span class="kw">ylab</span><span class="kw">=</span><span class="st">"Proportion of variance explained"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html">reducedDim</a></span>(<span class="no">sce</span>, <span class="st">"PCA"</span>)), <span class="kw">lty</span><span class="kw">=</span><span class="fl">2</span>, <span class="kw">col</span><span class="kw">=</span><span class="st">"red"</span>)</pre></body></html></div>
 <p><img src="hcadata_files/figure-html/dimred-1.png" width="700"></p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sce</span>, <span class="kw">ncomponents</span><span class="kw">=</span><span class="fl">3</span>, <span class="kw">colour_by</span><span class="kw">=</span><span class="st">"percent_top_500"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotPCA</a></span>(<span class="no">sce</span>, <span class="kw">ncomponents</span><span class="kw">=</span><span class="fl">3</span>, <span class="kw">colour_by</span><span class="kw">=</span><span class="st">"subsets_Mito_percent"</span>)</pre></body></html></div>
 <p><img src="hcadata_files/figure-html/dimred-2.png" width="700"></p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r">
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">42</span>)
 <span class="no">sce</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scater/man/runTSNE.html">runTSNE</a></span>(<span class="no">sce</span>, <span class="kw">dimred</span><span class="kw">=</span><span class="st">"PCA"</span>, <span class="kw">perplexity</span><span class="kw">=</span><span class="fl">30</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotTSNE</a></span>(<span class="no">sce</span>, <span class="kw">colour_by</span><span class="kw">=</span><span class="st">"percent_top_500"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/pkg/scater/man/plot_reddim.html">plotTSNE</a></span>(<span class="no">sce</span>, <span class="kw">colour_by</span><span class="kw">=</span><span class="st">"subsets_Mito_percent"</span>)</pre></body></html></div>
 <p><img src="hcadata_files/figure-html/dimred-3.png" width="700"></p>
 <p>After this, we can compute a shared nearest neighbour graph to identify clusters in our dataset. Once the cluster memberships are defined, we assign this vector to a corresponding <code>colData</code> slot, and plot the t-SNE for our subset, coloured accordingly.</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">snn.gr</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/scran/man/buildSNNGraph.html">buildSNNGraph</a></span>(<span class="no">sce</span>, <span class="kw">use.dimred</span><span class="kw">=</span><span class="st">"PCA"</span>)
@@ -308,7 +314,7 @@
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()
 <span class="co">#&gt; R version 4.0.0 (2020-04-24)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
-<span class="co">#&gt; Running under: macOS Catalina 10.15.4</span>
+<span class="co">#&gt; Running under: macOS Catalina 10.15.5</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
 <span class="co">#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib</span>
@@ -322,17 +328,18 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] scater_1.17.0               ggplot2_3.3.0              </span>
-<span class="co">#&gt;  [3] BiocSingular_1.5.0          scran_1.17.0               </span>
-<span class="co">#&gt;  [5] rhdf5_2.33.0                ExperimentHub_1.15.0       </span>
-<span class="co">#&gt;  [7] AnnotationHub_2.21.0        BiocFileCache_1.13.0       </span>
-<span class="co">#&gt;  [9] dbplyr_1.4.4                HCAData_1.5.0              </span>
-<span class="co">#&gt; [11] SingleCellExperiment_1.11.1 SummarizedExperiment_1.19.4</span>
-<span class="co">#&gt; [13] DelayedArray_0.15.1         matrixStats_0.56.0         </span>
-<span class="co">#&gt; [15] Biobase_2.49.0              GenomicRanges_1.41.1       </span>
-<span class="co">#&gt; [17] GenomeInfoDb_1.25.0         IRanges_2.23.5             </span>
-<span class="co">#&gt; [19] S4Vectors_0.27.8            BiocGenerics_0.35.2        </span>
-<span class="co">#&gt; [21] BiocStyle_2.17.0           </span>
+<span class="co">#&gt;  [1] scuttle_0.99.9              scater_1.17.2              </span>
+<span class="co">#&gt;  [3] ggplot2_3.3.1               BiocSingular_1.5.0         </span>
+<span class="co">#&gt;  [5] scran_1.17.1                rhdf5_2.33.3               </span>
+<span class="co">#&gt;  [7] ExperimentHub_1.15.0        AnnotationHub_2.21.0       </span>
+<span class="co">#&gt;  [9] BiocFileCache_1.13.0        dbplyr_1.4.4               </span>
+<span class="co">#&gt; [11] HCAData_1.5.1               SingleCellExperiment_1.11.4</span>
+<span class="co">#&gt; [13] SummarizedExperiment_1.19.5 DelayedArray_0.15.3        </span>
+<span class="co">#&gt; [15] matrixStats_0.56.0          Matrix_1.2-18              </span>
+<span class="co">#&gt; [17] Biobase_2.49.0              GenomicRanges_1.41.5       </span>
+<span class="co">#&gt; [19] GenomeInfoDb_1.25.1         IRanges_2.23.9             </span>
+<span class="co">#&gt; [21] S4Vectors_0.27.12           BiocGenerics_0.35.4        </span>
+<span class="co">#&gt; [23] BiocStyle_2.17.0           </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-6                  fs_1.4.1                     </span>
@@ -340,46 +347,46 @@
 <span class="co">#&gt;  [5] rprojroot_1.3-2               tools_4.0.0                  </span>
 <span class="co">#&gt;  [7] backports_1.1.7               R6_2.4.1                     </span>
 <span class="co">#&gt;  [9] irlba_2.3.3                   vipor_0.4.5                  </span>
-<span class="co">#&gt; [11] HDF5Array_1.17.0              colorspace_1.4-1             </span>
-<span class="co">#&gt; [13] DBI_1.1.0                     withr_2.2.0                  </span>
-<span class="co">#&gt; [15] gridExtra_2.3                 tidyselect_1.1.0             </span>
-<span class="co">#&gt; [17] bit_1.1-15.2                  curl_4.3                     </span>
-<span class="co">#&gt; [19] compiler_4.0.0                BiocNeighbors_1.7.0          </span>
-<span class="co">#&gt; [21] desc_1.2.0                    labeling_0.3                 </span>
-<span class="co">#&gt; [23] bookdown_0.19                 scales_1.1.1                 </span>
-<span class="co">#&gt; [25] rappdirs_0.3.1                pkgdown_1.5.1.9000           </span>
-<span class="co">#&gt; [27] stringr_1.4.0                 digest_0.6.25                </span>
-<span class="co">#&gt; [29] rmarkdown_2.1                 XVector_0.29.1               </span>
-<span class="co">#&gt; [31] pkgconfig_2.0.3               htmltools_0.4.0              </span>
-<span class="co">#&gt; [33] fastmap_1.0.1                 limma_3.45.0                 </span>
-<span class="co">#&gt; [35] rlang_0.4.6                   RSQLite_2.2.0                </span>
-<span class="co">#&gt; [37] shiny_1.4.0.2                 DelayedMatrixStats_1.11.0    </span>
-<span class="co">#&gt; [39] farver_2.0.3                  BiocParallel_1.23.0          </span>
-<span class="co">#&gt; [41] dplyr_0.8.5                   RCurl_1.98-1.2               </span>
-<span class="co">#&gt; [43] magrittr_1.5                  GenomeInfoDbData_1.2.3       </span>
-<span class="co">#&gt; [45] Matrix_1.2-18                 munsell_0.5.0                </span>
-<span class="co">#&gt; [47] ggbeeswarm_0.6.0              Rcpp_1.0.4.6                 </span>
-<span class="co">#&gt; [49] Rhdf5lib_1.11.0               viridis_0.5.1                </span>
-<span class="co">#&gt; [51] lifecycle_0.2.0               stringi_1.4.6                </span>
-<span class="co">#&gt; [53] yaml_2.2.1                    edgeR_3.31.0                 </span>
-<span class="co">#&gt; [55] MASS_7.3-51.5                 zlibbioc_1.35.0              </span>
-<span class="co">#&gt; [57] Rtsne_0.15                    grid_4.0.0                   </span>
-<span class="co">#&gt; [59] blob_1.2.1                    promises_1.1.0               </span>
-<span class="co">#&gt; [61] dqrng_0.2.1                   crayon_1.3.4                 </span>
-<span class="co">#&gt; [63] lattice_0.20-41               locfit_1.5-9.4               </span>
-<span class="co">#&gt; [65] knitr_1.28                    pillar_1.4.4                 </span>
-<span class="co">#&gt; [67] igraph_1.2.5                  glue_1.4.1                   </span>
-<span class="co">#&gt; [69] BiocVersion_3.12.0            evaluate_0.14                </span>
-<span class="co">#&gt; [71] BiocManager_1.30.10           vctrs_0.3.0                  </span>
-<span class="co">#&gt; [73] httpuv_1.5.3.1                gtable_0.3.0                 </span>
-<span class="co">#&gt; [75] purrr_0.3.4                   assertthat_0.2.1             </span>
-<span class="co">#&gt; [77] xfun_0.14                     rsvd_1.0.3                   </span>
-<span class="co">#&gt; [79] mime_0.9                      xtable_1.8-4                 </span>
-<span class="co">#&gt; [81] later_1.0.0                   viridisLite_0.3.0            </span>
-<span class="co">#&gt; [83] tibble_3.0.1                  beeswarm_0.2.3               </span>
-<span class="co">#&gt; [85] AnnotationDbi_1.51.0          memoise_1.1.0                </span>
-<span class="co">#&gt; [87] statmod_1.4.34                ellipsis_0.3.1               </span>
-<span class="co">#&gt; [89] interactiveDisplayBase_1.27.2</span></pre></body></html></div>
+<span class="co">#&gt; [11] HDF5Array_1.17.1              colorspace_1.4-1             </span>
+<span class="co">#&gt; [13] DBI_1.1.0                     rhdf5filters_1.1.0           </span>
+<span class="co">#&gt; [15] withr_2.2.0                   gridExtra_2.3                </span>
+<span class="co">#&gt; [17] tidyselect_1.1.0              bit_1.1-15.2                 </span>
+<span class="co">#&gt; [19] curl_4.3                      compiler_4.0.0               </span>
+<span class="co">#&gt; [21] BiocNeighbors_1.7.0           desc_1.2.0                   </span>
+<span class="co">#&gt; [23] labeling_0.3                  bookdown_0.19                </span>
+<span class="co">#&gt; [25] scales_1.1.1                  rappdirs_0.3.1               </span>
+<span class="co">#&gt; [27] pkgdown_1.5.1.9000            stringr_1.4.0                </span>
+<span class="co">#&gt; [29] digest_0.6.25                 rmarkdown_2.2                </span>
+<span class="co">#&gt; [31] XVector_0.29.2                pkgconfig_2.0.3              </span>
+<span class="co">#&gt; [33] htmltools_0.4.0               fastmap_1.0.1                </span>
+<span class="co">#&gt; [35] limma_3.45.6                  rlang_0.4.6                  </span>
+<span class="co">#&gt; [37] RSQLite_2.2.0                 shiny_1.4.0.2                </span>
+<span class="co">#&gt; [39] DelayedMatrixStats_1.11.0     farver_2.0.3                 </span>
+<span class="co">#&gt; [41] generics_0.0.2                BiocParallel_1.23.0          </span>
+<span class="co">#&gt; [43] dplyr_1.0.0                   RCurl_1.98-1.2               </span>
+<span class="co">#&gt; [45] magrittr_1.5                  GenomeInfoDbData_1.2.3       </span>
+<span class="co">#&gt; [47] ggbeeswarm_0.6.0              munsell_0.5.0                </span>
+<span class="co">#&gt; [49] Rcpp_1.0.4.6                  Rhdf5lib_1.11.1              </span>
+<span class="co">#&gt; [51] viridis_0.5.1                 lifecycle_0.2.0              </span>
+<span class="co">#&gt; [53] stringi_1.4.6                 yaml_2.2.1                   </span>
+<span class="co">#&gt; [55] edgeR_3.31.4                  MASS_7.3-51.5                </span>
+<span class="co">#&gt; [57] zlibbioc_1.35.0               Rtsne_0.15                   </span>
+<span class="co">#&gt; [59] grid_4.0.0                    blob_1.2.1                   </span>
+<span class="co">#&gt; [61] promises_1.1.1                dqrng_0.2.1                  </span>
+<span class="co">#&gt; [63] crayon_1.3.4                  lattice_0.20-41              </span>
+<span class="co">#&gt; [65] locfit_1.5-9.4                knitr_1.28                   </span>
+<span class="co">#&gt; [67] pillar_1.4.4                  igraph_1.2.5                 </span>
+<span class="co">#&gt; [69] glue_1.4.1                    BiocVersion_3.12.0           </span>
+<span class="co">#&gt; [71] evaluate_0.14                 BiocManager_1.30.10          </span>
+<span class="co">#&gt; [73] vctrs_0.3.1                   httpuv_1.5.4                 </span>
+<span class="co">#&gt; [75] gtable_0.3.0                  purrr_0.3.4                  </span>
+<span class="co">#&gt; [77] assertthat_0.2.1              xfun_0.14                    </span>
+<span class="co">#&gt; [79] rsvd_1.0.3                    mime_0.9                     </span>
+<span class="co">#&gt; [81] xtable_1.8-4                  later_1.1.0.1                </span>
+<span class="co">#&gt; [83] viridisLite_0.3.0             tibble_3.0.1                 </span>
+<span class="co">#&gt; [85] beeswarm_0.2.3                AnnotationDbi_1.51.0         </span>
+<span class="co">#&gt; [87] memoise_1.1.0                 statmod_1.4.34               </span>
+<span class="co">#&gt; [89] ellipsis_0.3.1                interactiveDisplayBase_1.27.5</span></pre></body></html></div>
 </div>
   </div>
 
