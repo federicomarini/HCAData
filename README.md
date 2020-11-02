@@ -1,15 +1,13 @@
 <!-- badges: start -->
+
 [![R build
 status](https://github.com/federicomarini/HCAData/workflows/R-CMD-check/badge.svg)](https://github.com/federicomarini/HCAData/actions)
-[![Travis build
-status](https://travis-ci.org/federicomarini/HCAData.svg?branch=master)](https://travis-ci.org/federicomarini/HCAData)
 <!-- badges: end -->
 
 HCAData
 =======
 
-Available at
-<a href="http://bioconductor.org/packages/HCAData/" class="uri">http://bioconductor.org/packages/HCAData/</a>.
+Available at <http://bioconductor.org/packages/HCAData/>.
 
 This is an
 R/[ExperimentHub](https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html)
@@ -40,10 +38,10 @@ Some additional information
 
 -   This current release includes the following datasets:
 
-| dataset.ID             | subset               | species      | technology |  cell.number| description                                                                                 |
+| dataset.ID             | subset               | species      | technology | cell.number | description                                                                                 |
 |:-----------------------|:---------------------|:-------------|:-----------|------------:|:--------------------------------------------------------------------------------------------|
-| Census of Immune Cells | Umbilical cord blood | Homo sapiens | 10x        |       384000| Profiling of immunocytes by single cell RNA-seq for understanding human health and disease. |
-| Census of Immune Cells | Bone marrow          | Homo sapiens | 10x        |       378000| Profiling of immunocytes by single cell RNA-seq for understanding human health and disease. |
+| Census of Immune Cells | Umbilical cord blood | Homo sapiens | 10x        |      384000 | Profiling of immunocytes by single cell RNA-seq for understanding human health and disease. |
+| Census of Immune Cells | Bone marrow          | Homo sapiens | 10x        |      378000 | Profiling of immunocytes by single cell RNA-seq for understanding human health and disease. |
 
 -   Since the hdf5 files are derived from the cellranger pipeline, some
     information on their specific format can be found
