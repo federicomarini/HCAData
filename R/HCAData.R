@@ -15,6 +15,8 @@
 #' }
 #'
 #' @param dataset A character string: which dataset should be retrieved?
+#' @param as.sparse Logical, specifies whether the underlying HDF5 dataset should
+#' be treated as sparse or not - will be passed to the call to `HDF5Array()`
 #'
 #' @return A SingleCellExperiment object with a HDF5Matrix in the \code{counts}
 #' assay, containing the UMI counts for each gene in each cell. Row- and column-level
@@ -25,7 +27,7 @@
 #' @examples
 #' HCAData()
 #' sce_cordblood <- HCAData("ica_cord_blood")
-HCAData <- function(dataset = NULL) {
+HCAData <- function(dataset = NULL, as.sparse = FALSE) {
   available_datasets <- c("ica_bone_marrow", "ica_cord_blood")
   if(!is.null(dataset)) {
     if(!(dataset %in% available_datasets)) {
@@ -54,7 +56,7 @@ HCAData <- function(dataset = NULL) {
     h5datapath <- paste0(base, dataset, "_rectangular.h5")
     h5file <- query(hub, h5datapath)[[1]]
   })
-  h5array <- HDF5Array(h5file, "counts")
+  h5array <- HDF5Array(h5file, "counts", as.sparse = as.sparse)
 
   sce <- SingleCellExperiment(
     list(counts = h5array),
