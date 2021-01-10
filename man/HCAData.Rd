@@ -4,13 +4,14 @@
 \alias{HCAData}
 \title{Download data from the HCA via ExperimentHub}
 \usage{
-HCAData(dataset = NULL, as.sparse = FALSE)
+HCAData(dataset = NULL, as.sparse = TRUE)
 }
 \arguments{
 \item{dataset}{A character string: which dataset should be retrieved?}
 
 \item{as.sparse}{Logical, specifies whether the underlying HDF5 dataset should
-be treated as sparse or not - will be passed to the call to `HDF5Array()`}
+be treated as sparse or not - will be passed to the call to `HDF5Array()`.
+Defaults to TRUE, i.e. by using the `DelayedArray` infrastructure.}
 }
 \value{
 A SingleCellExperiment object with a HDF5Matrix in the \code{counts}
