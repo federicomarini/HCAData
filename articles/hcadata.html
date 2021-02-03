@@ -82,7 +82,7 @@
       Institute of Medical Biostatistics, Epidemiology and Informatics (IMBEI), Mainz<br><a class="author_email" href="mailto:#"></a><a href="mailto:marinif@uni-mainz.de" class="email">marinif@uni-mainz.de</a>
       </address>
                   
-            <h4 class="date">22 January 2021</h4>
+            <h4 class="date">3 February 2021</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/federicomarini/HCAData/blob/master/vignettes/hcadata.Rmd"><code>vignettes/hcadata.Rmd</code></a></small>
       <div class="hidden name"><code>hcadata.Rmd</code></div>
@@ -91,7 +91,7 @@
 
     
     
-<p><strong>Compiled date</strong>: 2021-01-22</p>
+<p><strong>Compiled date</strong>: 2021-02-03</p>
 <p><strong>Last edited</strong>: 2019-05-24</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="introducing-the-hcadata-package" class="section level1">
@@ -131,7 +131,7 @@
 <span class="va">eh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ExperimentHub/man/ExperimentHub-class.html">ExperimentHub</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu">query</span><span class="op">(</span><span class="va">eh</span>, <span class="st">"HCAData"</span><span class="op">)</span>
 <span class="co">#&gt; ExperimentHub with 6 records</span>
-<span class="co">#&gt; # snapshotDate(): 2021-01-20</span>
+<span class="co">#&gt; # snapshotDate(): 2021-01-28</span>
 <span class="co">#&gt; # $dataprovider: Human Cell Atlas</span>
 <span class="co">#&gt; # $species: Homo sapiens</span>
 <span class="co">#&gt; # $rdataclass: character</span>
@@ -324,7 +324,7 @@
 <a href="#session-info" class="anchor"></a>Session info</h1>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R Under development (unstable) (2021-01-22 r79855)</span>
+<span class="co">#&gt; R Under development (unstable) (2021-02-02 r79929)</span>
 <span class="co">#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)</span>
 <span class="co">#&gt; Running under: macOS Catalina 10.15.7</span>
 <span class="co">#&gt; </span>
@@ -340,69 +340,70 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt;  [1] scuttle_1.1.6               scater_1.19.8              </span>
-<span class="co">#&gt;  [3] ggplot2_3.3.3               BiocSingular_1.7.1         </span>
+<span class="co">#&gt;  [1] scuttle_1.1.9               scater_1.19.9              </span>
+<span class="co">#&gt;  [3] ggplot2_3.3.3               BiocSingular_1.7.2         </span>
 <span class="co">#&gt;  [5] scran_1.19.10               rhdf5_2.35.0               </span>
-<span class="co">#&gt;  [7] ExperimentHub_1.17.0        AnnotationHub_2.23.0       </span>
+<span class="co">#&gt;  [7] ExperimentHub_1.17.0        AnnotationHub_2.23.1       </span>
 <span class="co">#&gt;  [9] BiocFileCache_1.15.1        dbplyr_2.0.0               </span>
-<span class="co">#&gt; [11] HCAData_1.7.1               SingleCellExperiment_1.13.4</span>
+<span class="co">#&gt; [11] HCAData_1.7.1               SingleCellExperiment_1.13.6</span>
 <span class="co">#&gt; [13] SummarizedExperiment_1.21.1 Biobase_2.51.0             </span>
-<span class="co">#&gt; [15] GenomicRanges_1.43.3        GenomeInfoDb_1.27.3        </span>
+<span class="co">#&gt; [15] GenomicRanges_1.43.3        GenomeInfoDb_1.27.5        </span>
 <span class="co">#&gt; [17] IRanges_2.25.6              S4Vectors_0.29.6           </span>
-<span class="co">#&gt; [19] BiocGenerics_0.37.0         MatrixGenerics_1.3.0       </span>
-<span class="co">#&gt; [21] matrixStats_0.57.0          BiocStyle_2.19.1           </span>
+<span class="co">#&gt; [19] BiocGenerics_0.37.0         MatrixGenerics_1.3.1       </span>
+<span class="co">#&gt; [21] matrixStats_0.58.0          BiocStyle_2.19.1           </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] Rtsne_0.15                    ggbeeswarm_0.6.0             </span>
-<span class="co">#&gt;  [3] colorspace_2.0-0              ellipsis_0.3.1               </span>
-<span class="co">#&gt;  [5] rprojroot_2.0.2               bluster_1.1.5                </span>
-<span class="co">#&gt;  [7] XVector_0.31.1                BiocNeighbors_1.9.4          </span>
-<span class="co">#&gt;  [9] fs_1.5.0                      farver_2.0.3                 </span>
-<span class="co">#&gt; [11] bit64_4.0.5                   interactiveDisplayBase_1.29.0</span>
-<span class="co">#&gt; [13] AnnotationDbi_1.53.0          sparseMatrixStats_1.3.2      </span>
-<span class="co">#&gt; [15] knitr_1.30                    shiny_1.5.0                  </span>
-<span class="co">#&gt; [17] HDF5Array_1.19.0              BiocManager_1.30.10          </span>
-<span class="co">#&gt; [19] compiler_4.1.0                httr_1.4.2                   </span>
-<span class="co">#&gt; [21] dqrng_0.2.1                   assertthat_0.2.1             </span>
-<span class="co">#&gt; [23] Matrix_1.3-2                  fastmap_1.0.1                </span>
-<span class="co">#&gt; [25] limma_3.47.3                  later_1.1.0.1                </span>
-<span class="co">#&gt; [27] htmltools_0.5.1               tools_4.1.0                  </span>
-<span class="co">#&gt; [29] rsvd_1.0.3                    igraph_1.2.6                 </span>
-<span class="co">#&gt; [31] gtable_0.3.0                  glue_1.4.2                   </span>
-<span class="co">#&gt; [33] GenomeInfoDbData_1.2.4        dplyr_1.0.3                  </span>
-<span class="co">#&gt; [35] rappdirs_0.3.1                Rcpp_1.0.6                   </span>
-<span class="co">#&gt; [37] pkgdown_1.6.1.9000            vctrs_0.3.6                  </span>
-<span class="co">#&gt; [39] rhdf5filters_1.3.3            DelayedMatrixStats_1.13.4    </span>
-<span class="co">#&gt; [41] xfun_0.20                     stringr_1.4.0                </span>
-<span class="co">#&gt; [43] beachmat_2.7.6                mime_0.9                     </span>
-<span class="co">#&gt; [45] lifecycle_0.2.0               irlba_2.3.3                  </span>
-<span class="co">#&gt; [47] statmod_1.4.35                edgeR_3.33.1                 </span>
-<span class="co">#&gt; [49] zlibbioc_1.37.0               scales_1.1.1                 </span>
-<span class="co">#&gt; [51] ragg_0.4.1                    promises_1.1.1               </span>
-<span class="co">#&gt; [53] yaml_2.2.1                    curl_4.3                     </span>
-<span class="co">#&gt; [55] memoise_1.1.0                 gridExtra_2.3                </span>
-<span class="co">#&gt; [57] stringi_1.5.3                 RSQLite_2.2.2                </span>
-<span class="co">#&gt; [59] BiocVersion_3.13.1            desc_1.2.0                   </span>
-<span class="co">#&gt; [61] ScaledMatrix_0.99.2           filelock_1.0.2               </span>
-<span class="co">#&gt; [63] BiocParallel_1.25.2           rlang_0.4.10                 </span>
-<span class="co">#&gt; [65] pkgconfig_2.0.3               systemfonts_0.3.2            </span>
-<span class="co">#&gt; [67] bitops_1.0-6                  evaluate_0.14                </span>
-<span class="co">#&gt; [69] lattice_0.20-41               purrr_0.3.4                  </span>
-<span class="co">#&gt; [71] Rhdf5lib_1.13.0               labeling_0.4.2               </span>
-<span class="co">#&gt; [73] bit_4.0.4                     tidyselect_1.1.0             </span>
-<span class="co">#&gt; [75] magrittr_2.0.1                bookdown_0.21                </span>
-<span class="co">#&gt; [77] R6_2.5.0                      generics_0.1.0               </span>
-<span class="co">#&gt; [79] metapod_0.99.5                DelayedArray_0.17.7          </span>
-<span class="co">#&gt; [81] DBI_1.1.1                     pillar_1.4.7                 </span>
-<span class="co">#&gt; [83] withr_2.4.0                   RCurl_1.98-1.2               </span>
-<span class="co">#&gt; [85] tibble_3.0.5                  crayon_1.3.4                 </span>
-<span class="co">#&gt; [87] rmarkdown_2.6                 viridis_0.5.1                </span>
-<span class="co">#&gt; [89] locfit_1.5-9.4                grid_4.1.0                   </span>
-<span class="co">#&gt; [91] blob_1.2.1                    digest_0.6.27                </span>
-<span class="co">#&gt; [93] xtable_1.8-4                  httpuv_1.5.5                 </span>
-<span class="co">#&gt; [95] textshaping_0.2.1             munsell_0.5.0                </span>
-<span class="co">#&gt; [97] viridisLite_0.3.0             beeswarm_0.2.3               </span>
-<span class="co">#&gt; [99] vipor_0.4.5</span></code></pre></div>
+<span class="co">#&gt;   [1] Rtsne_0.15                    ggbeeswarm_0.6.0             </span>
+<span class="co">#&gt;   [3] colorspace_2.0-0              ellipsis_0.3.1               </span>
+<span class="co">#&gt;   [5] rprojroot_2.0.2               bluster_1.1.5                </span>
+<span class="co">#&gt;   [7] XVector_0.31.1                BiocNeighbors_1.9.4          </span>
+<span class="co">#&gt;   [9] fs_1.5.0                      farver_2.0.3                 </span>
+<span class="co">#&gt;  [11] bit64_4.0.5                   interactiveDisplayBase_1.29.0</span>
+<span class="co">#&gt;  [13] AnnotationDbi_1.53.0          sparseMatrixStats_1.3.2      </span>
+<span class="co">#&gt;  [15] cachem_1.0.1                  knitr_1.31                   </span>
+<span class="co">#&gt;  [17] shiny_1.6.0                   HDF5Array_1.19.0             </span>
+<span class="co">#&gt;  [19] BiocManager_1.30.10           compiler_4.1.0               </span>
+<span class="co">#&gt;  [21] httr_1.4.2                    dqrng_0.2.1                  </span>
+<span class="co">#&gt;  [23] assertthat_0.2.1              Matrix_1.3-2                 </span>
+<span class="co">#&gt;  [25] fastmap_1.1.0                 limma_3.47.6                 </span>
+<span class="co">#&gt;  [27] later_1.1.0.1                 htmltools_0.5.1.1            </span>
+<span class="co">#&gt;  [29] tools_4.1.0                   rsvd_1.0.3                   </span>
+<span class="co">#&gt;  [31] igraph_1.2.6                  gtable_0.3.0                 </span>
+<span class="co">#&gt;  [33] glue_1.4.2                    GenomeInfoDbData_1.2.4       </span>
+<span class="co">#&gt;  [35] dplyr_1.0.4                   rappdirs_0.3.3               </span>
+<span class="co">#&gt;  [37] Rcpp_1.0.6                    pkgdown_1.6.1.9000           </span>
+<span class="co">#&gt;  [39] vctrs_0.3.6                   rhdf5filters_1.3.3           </span>
+<span class="co">#&gt;  [41] DelayedMatrixStats_1.13.4     xfun_0.20                    </span>
+<span class="co">#&gt;  [43] stringr_1.4.0                 beachmat_2.7.6               </span>
+<span class="co">#&gt;  [45] mime_0.9                      lifecycle_0.2.0              </span>
+<span class="co">#&gt;  [47] irlba_2.3.3                   statmod_1.4.35               </span>
+<span class="co">#&gt;  [49] edgeR_3.33.1                  zlibbioc_1.37.0              </span>
+<span class="co">#&gt;  [51] scales_1.1.1                  ragg_0.4.1                   </span>
+<span class="co">#&gt;  [53] promises_1.1.1                yaml_2.2.1                   </span>
+<span class="co">#&gt;  [55] curl_4.3                      gridExtra_2.3                </span>
+<span class="co">#&gt;  [57] memoise_2.0.0                 stringi_1.5.3                </span>
+<span class="co">#&gt;  [59] RSQLite_2.2.3                 highr_0.8                    </span>
+<span class="co">#&gt;  [61] BiocVersion_3.13.1            desc_1.2.0                   </span>
+<span class="co">#&gt;  [63] ScaledMatrix_0.99.2           filelock_1.0.2               </span>
+<span class="co">#&gt;  [65] BiocParallel_1.25.3           rlang_0.4.10                 </span>
+<span class="co">#&gt;  [67] pkgconfig_2.0.3               systemfonts_1.0.0            </span>
+<span class="co">#&gt;  [69] bitops_1.0-6                  evaluate_0.14                </span>
+<span class="co">#&gt;  [71] lattice_0.20-41               purrr_0.3.4                  </span>
+<span class="co">#&gt;  [73] Rhdf5lib_1.13.0               labeling_0.4.2               </span>
+<span class="co">#&gt;  [75] bit_4.0.4                     tidyselect_1.1.0             </span>
+<span class="co">#&gt;  [77] magrittr_2.0.1                bookdown_0.21                </span>
+<span class="co">#&gt;  [79] R6_2.5.0                      generics_0.1.0               </span>
+<span class="co">#&gt;  [81] metapod_0.99.5                DelayedArray_0.17.7          </span>
+<span class="co">#&gt;  [83] DBI_1.1.1                     pillar_1.4.7                 </span>
+<span class="co">#&gt;  [85] withr_2.4.1                   RCurl_1.98-1.2               </span>
+<span class="co">#&gt;  [87] tibble_3.0.6                  crayon_1.4.0                 </span>
+<span class="co">#&gt;  [89] rmarkdown_2.6                 viridis_0.5.1                </span>
+<span class="co">#&gt;  [91] locfit_1.5-9.4                grid_4.1.0                   </span>
+<span class="co">#&gt;  [93] blob_1.2.1                    digest_0.6.27                </span>
+<span class="co">#&gt;  [95] xtable_1.8-4                  httpuv_1.5.5                 </span>
+<span class="co">#&gt;  [97] textshaping_0.2.1             munsell_0.5.0                </span>
+<span class="co">#&gt;  [99] viridisLite_0.3.0             beeswarm_0.2.3               </span>
+<span class="co">#&gt; [101] vipor_0.4.5</span></code></pre></div>
 </div>
   </div>
 
