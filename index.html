@@ -22,6 +22,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">HCAData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.0</span>
       </span>
     </div>
 
@@ -61,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/federicomarini/HCAData/">
+  <a href="https://github.com/federicomarini/HCAData/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -80,18 +82,18 @@
   <div class="contents col-md-9">
 
 
-<div id="hcadata" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#hcadata" class="anchor"></a>HCAData</h1></div>
-<p>Available at <a href="http://bioconductor.org/packages/HCAData/" class="uri">http://bioconductor.org/packages/HCAData/</a>.</p>
-<p>This is an R/<a href="https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html">ExperimentHub</a> package for accessing data from the <a href="https://www.humancellatlas.org">Human Cell Atlas</a> as <a href="https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html"><code>SingleCellExperiment</code></a> objects.</p>
-<p>The datasets can otherwise be downloaded from the <a href="https://preview.data.humancellatlas.org">Human Cell Atlas Data Portal</a>, where they are available to the research community, either in raw format (with scripts to download the primary data), or in hdf5-based format (for the sets generated via the 10x method).</p>
+<div class="section level1">
+<div class="page-header"><h1 id="hcadata">HCAData<a class="anchor" aria-label="anchor" href="#hcadata"></a>
+</h1></div>
+<p>Available at <a href="http://bioconductor.org/packages/HCAData/" class="external-link uri">http://bioconductor.org/packages/HCAData/</a>.</p>
+<p>This is an R/<a href="https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html" class="external-link">ExperimentHub</a> package for accessing data from the <a href="https://www.humancellatlas.org" class="external-link">Human Cell Atlas</a> as <a href="https://bioconductor.org/packages/release/bioc/html/SingleCellExperiment.html" class="external-link"><code>SingleCellExperiment</code></a> objects.</p>
+<p>The datasets can otherwise be downloaded from the <a href="https://preview.data.humancellatlas.org" class="external-link">Human Cell Atlas Data Portal</a>, where they are available to the research community, either in raw format (with scripts to download the primary data), or in hdf5-based format (for the sets generated via the 10x method).</p>
 <p>If you use the data, please refer to the original sources as well (plus the related publications, which will be listed here when they will be out), which are licensed under a Creative Commons Attribution 4.0 International License.</p>
-<div id="some-additional-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#some-additional-information" class="anchor"></a>Some additional information</h2>
+<div class="section level2">
+<h2 id="some-additional-information">Some additional information<a class="anchor" aria-label="anchor" href="#some-additional-information"></a>
+</h2>
 <ul>
-<li><p>The <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger"><code>cellranger</code></a>-processed data files and metadata were downloaded from the links provided in <a href="https://preview.data.humancellatlas.org">the Data Portal</a> on November 5, 2018</p></li>
+<li><p>The <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger" class="external-link"><code>cellranger</code></a>-processed data files and metadata were downloaded from the links provided in <a href="https://preview.data.humancellatlas.org" class="external-link">the Data Portal</a> on November 5, 2018</p></li>
 <li><p>This current release includes the following datasets:</p></li>
 </ul>
 <table class="table">
@@ -131,15 +133,20 @@
 </tbody>
 </table>
 <ul>
-<li>Since the hdf5 files are derived from the cellranger pipeline, some information on their specific format can be found <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/h5_matrices">here</a>
+<li>Since the hdf5 files are derived from the cellranger pipeline, some information on their specific format can be found <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/h5_matrices" class="external-link">here</a>
 </li>
 </ul>
 </div>
-<div id="some-new-dataset-has-been-released-but-it-is-not-in-this-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#some-new-dataset-has-been-released-but-it-is-not-in-this-package" class="anchor"></a>Some new dataset has been released but it is not in this package!</h2>
+<div class="section level2">
+<h2 id="some-new-dataset-has-been-released-but-it-is-not-in-this-package">Some new dataset has been released but it is not in this package!<a class="anchor" aria-label="anchor" href="#some-new-dataset-has-been-released-but-it-is-not-in-this-package"></a>
+</h2>
 <p>In this case, feel free to contact the author(s) of this package, and/or to provide a complete pull request with the recipe to add the missing dataset.</p>
-<p>To get initial guidance for this, please refer to the excellent vignettes of the <a href="https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html">ExperimentHub</a> package.</p>
+<p>To get initial guidance for this, please refer to the excellent vignettes of the <a href="https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html" class="external-link">ExperimentHub</a> package.</p>
+</div>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
+<p>Please note that the HCAData project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
@@ -147,44 +154,54 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from BIOC at <br><a href="https://www.bioconductor.org/packages/HCAData">https://​www.bioconductor.org/​packages/​HCAData</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/federicomarini/HCAData/">https://​github.com/​federicomarini/​HCAData/​</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Federico Marini <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3252-7758" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="https://www.bioconductor.org/packages/HCAData" class="external-link">View on Bioconductor</a></li>
+<li><a href="https://github.com/federicomarini/HCAData/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/federicomarini/HCAData/actions"><img src="https://github.com/federicomarini/HCAData/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Federico Marini <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3252-7758" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/federicomarini/HCAData/actions" class="external-link"><img src="https://github.com/federicomarini/HCAData/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Federico Marini.</p>
+  <p></p>
+<p>Developed by Federico Marini.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
@@ -192,6 +209,8 @@
 
   
 
+
+  
 
   </body>
 </html>
