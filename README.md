@@ -4,8 +4,7 @@
 status](https://github.com/federicomarini/HCAData/workflows/R-CMD-check/badge.svg)](https://github.com/federicomarini/HCAData/actions)
 <!-- badges: end -->
 
-HCAData
-=======
+# HCAData
 
 Available at <http://bioconductor.org/packages/HCAData/>.
 
@@ -27,8 +26,7 @@ the related publications, which will be listed here when they will be
 out), which are licensed under a Creative Commons Attribution 4.0
 International License.
 
-Some additional information
----------------------------
+## Some additional information
 
 -   The
     [`cellranger`](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger)-processed
@@ -47,8 +45,7 @@ Some additional information
     information on their specific format can be found
     [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/advanced/h5_matrices)
 
-Some new dataset has been released but it is not in this package!
------------------------------------------------------------------
+## Some new dataset has been released but it is not in this package!
 
 In this case, feel free to contact the author(s) of this package, and/or
 to provide a complete pull request with the recipe to add the missing
@@ -58,3 +55,10 @@ To get initial guidance for this, please refer to the excellent
 vignettes of the
 [ExperimentHub](https://bioconductor.org/packages/release/bioc/html/ExperimentHub.html)
 package.
+
+## Code of Conduct
+
+Please note that the HCAData project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
