@@ -1,4 +1,4 @@
-- ~~license to be chosen~~ MIT
+- ~~license to be chosen~~ MIT ✅
 - ~~data must be there in correct form~~ Checked with manually computed averages and via other functions
 - ~~metadata to be found and added properly~~ Filled in, passing validity check!
 - ~~sce object created~~ sce is created in the main function to access, from the three components
