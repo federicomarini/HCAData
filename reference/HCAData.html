@@ -67,21 +67,29 @@ SingleCellExperiment object</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">HCAData</span><span class="op">(</span>dataset <span class="op">=</span> <span class="cn">NULL</span>, as.sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">HCAData</span><span class="op">(</span>dataset <span class="op">=</span> <span class="cn">NULL</span>, as.sparse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dataset</dt>
 <dd><p>A character string: which dataset should be retrieved?</p></dd>
+
+
 <dt>as.sparse</dt>
 <dd><p>Logical, specifies whether the underlying HDF5 dataset should
 be treated as sparse or not - will be passed to the call to `HDF5Array()`.
 Defaults to TRUE, i.e. by using the `DelayedArray` infrastructure.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A SingleCellExperiment object with a HDF5Matrix in the <code>counts</code>assay, containing the UMI counts for each gene in each cell. Row- and column-level
+    
+
+<p>A SingleCellExperiment object with a HDF5Matrix in the <code>counts</code></p>
+
+
+<p>assay, containing the UMI counts for each gene in each cell. Row- and column-level
 metadata are also provided.</p>
     </div>
     <div id="details">
@@ -101,13 +109,13 @@ metadata are also provided.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">HCAData</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">HCAData</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> No dataset name provided, please choose one of the following: </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ica_bone_marrow</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ica_cord_blood</span>
-<span class="r-in"><span class="va">sce_cordblood</span> <span class="op">&lt;-</span> <span class="fu">HCAData</span><span class="op">(</span><span class="st">"ica_cord_blood"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">sce_cordblood</span> <span class="op">&lt;-</span> <span class="fu">HCAData</span><span class="op">(</span><span class="st">"ica_cord_blood"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Retrieving Human Cell Atlas dataset: ica_cord_blood</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> snapshotDate(): 2022-05-17</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> snapshotDate(): 2022-10-17</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> see ?HCAData and browseVignettes('HCAData') for documentation</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
 </code></pre></div>
@@ -124,7 +132,7 @@ metadata are also provided.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
