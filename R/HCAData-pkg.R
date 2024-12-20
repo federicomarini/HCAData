@@ -16,5 +16,5 @@
 #'
 #' @author Federico Marini \email{marinif@@uni-mainz.de}
 #' @name HCAData-pkg
-#' @docType internal
+#' @keywords internal
 "_PACKAGE"
