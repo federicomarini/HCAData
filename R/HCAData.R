@@ -19,7 +19,7 @@
 #' be treated as sparse or not - will be passed to the call to `HDF5Array()`.
 #' Defaults to TRUE, i.e. by using the `DelayedArray` infrastructure.
 #'
-#' @return A SingleCellExperiment object with a HDF5Matrix in the \code{counts}
+#' @return A SingleCellExperiment object with a HDF5Matrix in the `counts`
 #' assay, containing the UMI counts for each gene in each cell. Row- and column-level
 #' metadata are also provided.
 #'
